@@ -1,27 +1,51 @@
 __author__ = 'charls'
 from sys import platform as _platform
 import os
+import logging
+from django.conf import settings
 
 
 class InputsHandler:
-    def __init__(self):
-        self.__linux_path="/mnt/logs"
-        self.__windows_path="C:\reportsforlogs\logs"
 
-    def get_data_from_filesystem(self):
+    def __init__(self, subfolder="seen"):
+        self.__path = os.path.join(os.path.dirname(__file__),subfolder)
+        self.__linux_path = "/mnt/logs"
+        self.__windows_path = "C:\\reportsforlogs\\logs"
+        self.__file = None
+        self.__fingerprints = set()
+        self.set_path_for_filesystem()
+        if self.__path:
+            self.__file = open(os.path.join(self.__path,"parsedfolders.seen"), "a+")
+            self.__fingerprints.update(x.rstrip() for x in self.__file)
+
+    def __del__(self):
+        self.close()
+
+    def is_already_parsed(self, file):
+        if file in self.__fingerprints:
+            return True
+        return False
+
+    def already_parsed(self, file):
+        if file in self.__fingerprints:
+            return False
+        self.__fingerprints.add(file)
+        if self.__file:
+            self.__file.write(file + os.linesep)
+        return True
+
+    def set_path_for_filesystem(self):
         if _platform == "linux" or _platform == "linux2":
-            files=self.list_files(self.__linux_path)
+            self.path_for_filesystem = self.__linux_path
 
         elif _platform == "win32":
-            files=self.list_files(self.__windows_path)
+            self.path_for_filesystem = self.__windows_path
 
-    #Asuming S3 is now configured like a mounted device, check the script.sh in $HOME/clonedrepos/initscript
-    def list_files(self,path):
-        files = []
-        for name in os.listdir(path):
-            if os.path.isfile(os.path.join(path, name)):
-                files.append(name)
-                print path+os.sep+name
-            else:
-                self.list_files(os.path.join(path,name))
+    def close(self):
+        if self.__file:
+            self.__file.close()
 
+    def log(self,msg=None):
+        if settings.DEBUG and msg:
+            self.__logger = logging.getLogger(__name__)
+            self.__logger.debug(msg)
