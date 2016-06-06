@@ -1,10 +1,16 @@
 __author__ = 'charls'
 
+INTERNAL_MW_INT = 'internal-errors-mw-int'
+INTERNAL_MW = 'errors-mw-int'
+SNDRCVMSG='sndrcvmsgs'
+
+
 dictionary = {
-    'internal-errors-mw-int': ['Integrator-Internal-SocieChat',
+    INTERNAL_MW_INT: ['Integrator-Internal-SocieChat',
                                'PT-Internal-Middleware'],
-    'errors-mw-int': ['Integrator-Error-SocieChat',
-                      'PT-Error-Middleware']
+    INTERNAL_MW: ['Integrator-Error-SocieChat',
+                      'PT-Error-Middleware'],
+    SNDRCVMSG:['Integrator-SndRcvMsg-SocieChat','PT-SndRcvMsg-Middleware']
 }
 
 folders = {
