@@ -6,13 +6,11 @@ import time
 class Logs:
     def __init__(self):
         self.LogData = {
-            INTERNAL_MW_INT: {}
-            , INTERNAL_MW: {},
-            SNDRCVMSG: {'W': {}, 'I': {}, 'A': {}
-
-                        }
+            INTERNAL_MW_INT: {},
+            INTERNAL_MW: {},
+            SNDRCVMSG: {'W': {}, 'I': {}, 'A': {}}
         }
-        self.DynamoDb=DynamoBD()
+        self.DynamoDb = DynamoBD()
 
     def add(self, level, date):
         if date in self.LogData[level]:
@@ -24,24 +22,23 @@ class Logs:
 
         if address_response in self.LogData[SNDRCVMSG][device_type.upper()]:
             last_send_or_receive=self.LogData[SNDRCVMSG][device_type.upper()][address_response]['snd_or_rcv']
-            if last_send_or_receive=="SNDSS":
+            if last_send_or_receive=="RCVSS":
                 self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = (self.LogData[SNDRCVMSG][
                                                                                                 device_type.upper()][
                                                                                                 address_response][
                                                                                                 'time_stamp'] - execution_time) / 1e9
-            elif last_send_or_receive=="RCVCS":
+            elif last_send_or_receive=="SNDSS":
                 self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = (execution_time - self.LogData[SNDRCVMSG][
                                                                                                     device_type.upper()][
                                                                                                     address_response][
                                                                                                     'time_stamp'] ) / 1e9
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['response'] = True
-            insert={
+            insert = {
                 'execution_date_time': self.LogData[SNDRCVMSG][device_type.upper()][address_response]['id'],
                 'date':self.LogData[SNDRCVMSG][device_type.upper()][address_response]['date'],
                 'total_execution_time':str(self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp']),
                 'service_attended':self.LogData[SNDRCVMSG][device_type.upper()][address_response]['response'],
                 'device_type':device_type
-
             }
             #self.DynamoDb.putItem(insert)
             #time.sleep(0.33)
