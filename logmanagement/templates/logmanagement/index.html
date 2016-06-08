@@ -47,7 +47,7 @@
     </div>
     <div class="row">
         <div class='col-md-12'>
-            <button type="button" class="btn btn-md btn-primary">Buscar</button>
+            <button type="button" class="btn btn-md btn-primary" id="btnsubmit">Buscar</button>
         </div>
     </div>
 </div>
@@ -68,6 +68,23 @@
         $("#datetimepicker7").on("dp.change", function (e) {
             $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
             $('#datetimepicker7').data("DateTimePicker").hide();
+        });
+
+
+        $('#btnsubmit').on('click',function(e) {
+            $.ajax({
+                type: "GET",
+                url: "2015-02-11/2016-02-11",
+
+                success: function (data) {
+
+                   console.log(data);
+
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
         });
     });
 </script>

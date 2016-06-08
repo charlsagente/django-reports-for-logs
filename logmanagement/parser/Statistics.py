@@ -11,6 +11,7 @@ class Statistics:
 
     def count_logs_by_log_level(self):
 
-        for key, value in self.logs[INTERNAL_MW].iteritems():
+        #for key, value in self.logs[INTERNAL_MW].iteritems():
 
-            print key,value
+            #print key,value
+        return self.logs
