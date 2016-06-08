@@ -1,0 +1,75 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logs</title>
+</head>
+<script type="text/javascript" src="{% static "logmanagement/scripts/jquery-1.12.4.min.js" %} "></script>
+<script type="text/javascript" src="../../static/logmanagement/scripts/moment.min.js"></script>
+<script type="text/javascript" src="../../static/logmanagement/scripts/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+        src="../../static/logmanagement/scripts/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+
+
+<link rel="stylesheet" href="../../static/logmanagement/scripts/bootstrap/css/bootstrap.min.css"/>
+
+<link rel="stylesheet" href="../../static/logmanagement/scripts/bootstrap/css/bootstrap-datetimepicker.min.css"/>
+<link rel="stylesheet" href="../../static/logmanagement/css/customize.css"/>
+<body>
+
+
+<div class="well">
+    <div class="row">
+
+        <div class='col-md-12'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker6'>
+                    <input type='text' class="form-control"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-md-12'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker7'>
+                    <input type='text' class="form-control"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-md-12'>
+            <button type="button" class="btn btn-md btn-primary">Buscar</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker6').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#datetimepicker7').datetimepicker({
+            useCurrent: false, //Important! See issue #1075
+            format: 'YYYY-MM-DD'
+        });
+        $("#datetimepicker6").on("dp.change", function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+            $('#datetimepicker6').data("DateTimePicker").hide();
+        });
+        $("#datetimepicker7").on("dp.change", function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+            $('#datetimepicker7').data("DateTimePicker").hide();
+        });
+    });
+</script>
+</body>
+</html>

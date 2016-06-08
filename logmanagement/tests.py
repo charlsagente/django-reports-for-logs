@@ -6,5 +6,5 @@ class TestPath(TestCase):
 
     def test_get_paths(self):
         stats=Statistics()
-        stats.count_logs_by_log_level(self)
+        stats.count_logs_by_log_level()
         self.assertTrue(True)

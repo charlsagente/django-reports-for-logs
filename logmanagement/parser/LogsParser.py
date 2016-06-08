@@ -4,7 +4,7 @@ import re
 from InputsHandler import InputsHandler
 from Logs import Logs
 from LogsDictionary import dictionary, folders,logs,INTERNAL_MW,INTERNAL_MW_INT,SNDRCVMSG
-
+import copy
 
 class LogsParser:
 
@@ -19,12 +19,13 @@ class LogsParser:
 
 
 
+
     def parse_backup_iteration(self, subfolder = folders['middleware_backups_folder']):
         folder_path = os.path.join(self.__inputData.path_for_filesystem, subfolder)
         for log_files in os.listdir(folder_path):
             if not self.__inputData.is_already_parsed(log_files):
                 self.match_and_dispatch_backup_files(folder_path, log_files)
-        return self.in_memory_logs
+        return copy.deepcopy(self.in_memory_logs.LogData)
 
     def match_and_dispatch_backup_files(self, folder_path, log_file_name):
         for regex in self.regex_internal_errors_mw_int:
