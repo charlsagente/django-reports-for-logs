@@ -25,7 +25,7 @@
         <div class='col-md-12'>
             <div class="form-group">
                 <div class='input-group date' id='datetimepicker6'>
-                    <input type='text' class="form-control"/>
+                    <input type='text' class="form-control" id="start_date"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -37,7 +37,7 @@
         <div class='col-md-12'>
             <div class="form-group">
                 <div class='input-group date' id='datetimepicker7'>
-                    <input type='text' class="form-control"/>
+                    <input type='text' class="form-control" id="end_date"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -74,7 +74,7 @@
         $('#btnsubmit').on('click',function(e) {
             $.ajax({
                 type: "GET",
-                url: "2015-02-11/2016-02-11",
+                url: $("#start_date").val()+"/"+$("#end_date").val(),
 
                 success: function (data) {
 

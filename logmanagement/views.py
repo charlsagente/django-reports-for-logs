@@ -13,7 +13,7 @@ def index(request):
     return render(request, 'logmanagement/index.html')
 
 def vista_1(request,start_date,end_date):
-    
+
     stats=Statistics()
-    data=stats.count_logs_by_log_level()
+    data=stats.count_logs_by_log_level(start_date,end_date)
     return HttpResponse(json.dumps(data), content_type='application/json')
