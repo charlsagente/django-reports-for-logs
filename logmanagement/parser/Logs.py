@@ -1,5 +1,5 @@
 __author__ = 'charls'
-from LogsDictionary import INTERNAL_MW, INTERNAL_MW_INT, SNDRCVMSG
+from LogsDictionary import INTERNAL_MW, INTERNAL_MW_INT, SNDRCVMSG,STRUCTURE_MW
 from DynamoDB import DynamoBD
 import time
 
@@ -8,6 +8,7 @@ class Logs:
         self.LogData = {
             INTERNAL_MW_INT: {},
             INTERNAL_MW: {},
+            STRUCTURE_MW: {'W': {}, 'I': {}, 'A': {}},
             SNDRCVMSG: {'W': {}, 'I': {}, 'A': {}}
         }
         self.__addresses = set()
@@ -18,6 +19,12 @@ class Logs:
             self.LogData[level][date] += 1
         else:
             self.LogData[level][date] = 1
+
+    def add_structure_counter(self,level,device,date):
+        if date in self.LogData[level][device]:
+            self.LogData[level][device][date]+=1
+        else:
+            self.LogData[level][device][date]=1
 
     def addRcvSnd(self, date, device_type, snd_or_rcv, address_response, execution_time):
 

@@ -3,25 +3,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Logs</title>
-</head>
-<script type="text/javascript" src="{% static "logmanagement/scripts/jquery-1.12.4.min.js" %} "></script>
-<script type="text/javascript" src="../../static/logmanagement/scripts/moment.min.js"></script>
-<script type="text/javascript" src="../../static/logmanagement/scripts/bootstrap/js/bootstrap.min.js"></script>
+    <title>Reportes for Logs</title>
+
+<script type="text/javascript" src="{% static "logmanagement/scripts/jquery-1.12.4.min.js" %}"></script>
+<script type="text/javascript" src="{% static "logmanagement/scripts/moment.min.js" %}"></script>
+<script type="text/javascript" src="{% static "logmanagement/scripts/bootstrap/js/bootstrap.min.js" %}"></script>
 <script type="text/javascript"
-        src="../../static/logmanagement/scripts/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+        src="{% static "logmanagement/scripts/bootstrap/js/bootstrap-datetimepicker.min.js" %}"></script>
 
-
-<link rel="stylesheet" href="../../static/logmanagement/scripts/bootstrap/css/bootstrap.min.css"/>
-
-<link rel="stylesheet" href="../../static/logmanagement/scripts/bootstrap/css/bootstrap-datetimepicker.min.css"/>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="../../static/logmanagement/css/customize.css"/>
+<link rel="stylesheet" href="{% static "logmanagement/scripts/bootstrap/css/bootstrap.min.css" %}"/>
+<link rel="stylesheet" href="{% static "logmanagement/scripts/bootstrap/css/bootstrap-datetimepicker.min.css" %}"/>
+<link rel="stylesheet" href="{% static "logmanagement/scripts/font-awesome-4.6.3/css/font-awesome.min.css" %}"/>
+<link rel="stylesheet" href="{% static "logmanagement/css/customize.css" %}"/>
 <link rel="stylesheet" type="text/css"
       href="https://fonts.googleapis.com/css?family=Roboto+Mono&subset=cyrillic">
-<body>
 
+<link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+</head>
+<body>
 
 <div class="well cal_pickers">
     <div class="row">
@@ -102,13 +102,19 @@
                                 <tr>
 
                                     <td>Tiempo promedio de servicios atendidos:</td>
-                                    <td><strong><span id="avg_time_android"></span>s</strong></td>
+                                    <td><strong><span id="avg_time_android"></span></strong></td>
 
                                 </tr>
                                 <tr>
 
                                     <td>Servicios atendidos con fallo:</td>
                                     <td><strong><span id="failed_attended_android"></span></strong></td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>Errores de estructura:</td>
+                                    <td><strong><span id="structure_errors_android"></span></strong></td>
 
                                 </tr>
                                 </tbody>
@@ -145,13 +151,19 @@
                         <tr>
 
                             <td>Tiempo promedio de servicios atendidos:</td>
-                            <td><strong><span id="avg_time_ios">33</span>s</strong></td>
+                            <td><strong><span id="avg_time_ios"></span></strong></td>
 
                         </tr>
                         <tr>
 
                             <td>Servicios atendidos con fallo:</td>
                             <td><strong><span id="failed_attended_ios"></span></strong></td>
+
+                        </tr>
+                        <tr>
+
+                            <td>Errores de estructura:</td>
+                            <td><strong><span id="structure_errors_ios"></span></strong></td>
 
                         </tr>
                         </tbody>
@@ -187,13 +199,19 @@
                                 <tr>
 
                                     <td>Tiempo promedio de servicios atendidos:</td>
-                                    <td><strong><span id="avg_time_web">33</span>s</strong></td>
+                                    <td><strong><span id="avg_time_web"></span></strong></td>
 
                                 </tr>
                                 <tr>
 
                                     <td>Servicios atendidos con fallo:</td>
                                     <td><strong><span id="failed_attended_web"></span></strong></td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>Errores de estructura:</td>
+                                    <td><strong><span id="structure_errors_web"></span></strong></td>
 
                                 </tr>
                                 </tbody>

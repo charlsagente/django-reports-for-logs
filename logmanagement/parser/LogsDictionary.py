@@ -2,15 +2,16 @@ __author__ = 'charls'
 
 INTERNAL_MW_INT = 'internal-errors-mw-int'
 INTERNAL_MW = 'errors-mw-int'
+STRUCTURE_MW = 'structure-mw'
 SNDRCVMSG = 'sndrcvmsgs'
-
 
 dictionary = {
     INTERNAL_MW_INT: ['Integrator-Internal-SocieChat',
-                               'PT-Internal-Middleware'],
+                      'PT-Internal-Middleware'],
     INTERNAL_MW: ['Integrator-Error-SocieChat',
-                      'PT-Error-Middleware'],
-    SNDRCVMSG: ['Integrator-SndRcvMsg-SocieChat','PT-SndRcvMsg-Middleware']
+                  'PT-Error-Middleware'],
+    STRUCTURE_MW: ['PT-Structure-Middleware'],
+    SNDRCVMSG: ['Integrator-SndRcvMsg-SocieChat', 'PT-SndRcvMsg-Middleware']
 }
 
 folders = {
@@ -22,4 +23,3 @@ logs = {
     'log_level': ['INTERNAL', 'STRUCTURE', 'LOSTMSG', 'ERROR', 'WARN', 'FUNCTIONAL', 'SNDRCVMSG', 'INFO', 'DEBUG',
                   'HEALTH']
 }
-

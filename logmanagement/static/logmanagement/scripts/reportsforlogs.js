@@ -20,6 +20,9 @@ $(function () {
 
 
     $('#btnsubmit').on('click', function (e) {
+        $(this).html('<i class="fa fa-circle-o-notch fa-spin"></i> Espere..');
+        $(this).attr('disabled', true);
+
         $.ajax({
             type: "GET",
             url: $("#start_date").val() + "/" + $("#end_date").val(),
@@ -30,22 +33,30 @@ $(function () {
                 $('#internal_errors_mw').text(data['internal-errors-mw-int']);
                 $('#errors_mw').text(data['errors-mw-int']);
 
-                $('#avg_time_android').text(data['sndrcvmsgs']['A']['avg_time']);
+                $('#avg_time_android').text(data['sndrcvmsgs']['A']['avg_time']+" s");
                 $('#failed_attended_android').text(data['sndrcvmsgs']['A']['failed_attended']);
                 $('#success_attended_android').text(data['sndrcvmsgs']['A']['success_attended']);
 
-                $('#avg_time_ios').text(data['sndrcvmsgs']['I']['avg_time']);
+                $('#avg_time_ios').text(data['sndrcvmsgs']['I']['avg_time']+" s");
                 $('#failed_attended_ios').text(data['sndrcvmsgs']['I']['failed_attended']);
                 $('#success_attended_ios').text(data['sndrcvmsgs']['I']['success_attended']);
 
-                $('#avg_time_web').text(data['sndrcvmsgs']['W']['avg_time']);
+                $('#avg_time_web').text(data['sndrcvmsgs']['W']['avg_time']+" s");
                 $('#failed_attended_web').text(data['sndrcvmsgs']['W']['failed_attended']);
                 $('#success_attended_web').text(data['sndrcvmsgs']['W']['success_attended']);
 
+                $('strong span').addClass('animated bounceInLeft');
+                $('strong span').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                    $('strong span').removeClass('animated bounceInLeft');
+                });
+                $('#btnsubmit').html('Buscar');
+                $('#btnsubmit').removeAttr('disabled');
 
             },
             error: function () {
                 alert("Error");
+                $('#btnsubmit').html('Buscar');
+                $('#btnsubmit').removeAttr('disabled');
             }
         });
     });
