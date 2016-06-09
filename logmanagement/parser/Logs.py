@@ -10,6 +10,7 @@ class Logs:
             INTERNAL_MW: {},
             SNDRCVMSG: {'W': {}, 'I': {}, 'A': {}}
         }
+        self.__addresses = set()
         self.DynamoDb = DynamoBD()
 
     def add(self, level, date):
@@ -20,7 +21,10 @@ class Logs:
 
     def addRcvSnd(self, date, device_type, snd_or_rcv, address_response, execution_time):
 
-        if address_response in self.LogData[SNDRCVMSG][device_type.upper()]:
+        if address_response in self.LogData[SNDRCVMSG][device_type.upper()] and not address_response in \
+                self.__addresses:
+
+            self.__addresses.add(address_response)
             last_send_or_receive=self.LogData[SNDRCVMSG][device_type.upper()][address_response]['snd_or_rcv']
             if last_send_or_receive=="RCVSS":
                 self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = (self.LogData[SNDRCVMSG][

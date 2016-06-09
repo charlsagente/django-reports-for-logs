@@ -15,15 +15,20 @@
 <link rel="stylesheet" href="../../static/logmanagement/scripts/bootstrap/css/bootstrap.min.css"/>
 
 <link rel="stylesheet" href="../../static/logmanagement/scripts/bootstrap/css/bootstrap-datetimepicker.min.css"/>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="../../static/logmanagement/css/customize.css"/>
+<link rel="stylesheet" type="text/css"
+      href="https://fonts.googleapis.com/css?family=Roboto+Mono&subset=cyrillic">
 <body>
 
 
-<div class="well">
+<div class="well cal_pickers">
     <div class="row">
 
         <div class='col-md-12'>
             <div class="form-group">
+                Fecha de inicio:
                 <div class='input-group date' id='datetimepicker6'>
                     <input type='text' class="form-control" id="start_date"/>
                     <span class="input-group-addon">
@@ -36,8 +41,9 @@
     <div class="row">
         <div class='col-md-12'>
             <div class="form-group">
+                Fecha de Fin:
                 <div class='input-group date' id='datetimepicker7'>
-                    <input type='text' class="form-control" id="end_date"/>
+                     <input type='text' class="form-control" id="end_date"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -51,42 +57,166 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker6').datetimepicker({
-            format: 'YYYY-MM-DD'
-        });
-        $('#datetimepicker7').datetimepicker({
-            useCurrent: false, //Important! See issue #1075
-            format: 'YYYY-MM-DD'
-        });
-        $("#datetimepicker6").on("dp.change", function (e) {
-            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-            $('#datetimepicker6').data("DateTimePicker").hide();
-        });
-        $("#datetimepicker7").on("dp.change", function (e) {
-            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-            $('#datetimepicker7').data("DateTimePicker").hide();
-        });
+<br>
 
 
-        $('#btnsubmit').on('click',function(e) {
-            $.ajax({
-                type: "GET",
-                url: $("#start_date").val()+"/"+$("#end_date").val(),
+<div class="page-header">
+    <h2><span class="label label-default">Vista 1</span></h2>
+</div>
 
-                success: function (data) {
 
-                   console.log(data);
+<div class="row">
+    <div class="col-md-12">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-6">
+                    Numero de errores internos MW: <strong><span id="internal_errors_mw"></span></strong>
+                    </div>
+                <div class="col-md-6">
+                    Numero de errores MW: <strong><span id="errors_mw"></span></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <i class="fa fa-android customize-icons" aria-hidden="true"></i> Android
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Servicios atendidos con &eacute;xito:</td>
+                                    <td><strong><span id="success_attended_android"></span></strong></td>
+                                </tr>
+                                <tr>
 
-                },
-                error: function () {
-                    alert("Error");
-                }
-            });
-        });
-    });
-</script>
+                                    <td>Tiempo promedio de servicios atendidos:</td>
+                                    <td><strong><span id="avg_time_android"></span>s</strong></td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>Servicios atendidos con fallo:</td>
+                                    <td><strong><span id="failed_attended_android"></span></strong></td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th colspan="2">
+                                <i class="fa fa-apple customize-icons" aria-hidden="true"></i> iOS
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Servicios atendidos con &eacute;xito:</td>
+                            <td><strong><span id="success_attended_ios"></span></strong></td>
+                        </tr>
+                        <tr>
+
+                            <td>Tiempo promedio de servicios atendidos:</td>
+                            <td><strong><span id="avg_time_ios">33</span>s</strong></td>
+
+                        </tr>
+                        <tr>
+
+                            <td>Servicios atendidos con fallo:</td>
+                            <td><strong><span id="failed_attended_ios"></span></strong></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <i class="fa fa-html5 customize-icons" aria-hidden="true"></i> Web
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Servicios atendidos con &eacute;xito:</td>
+                                    <td><strong><span id="success_attended_web"></span></strong></td>
+                                </tr>
+                                <tr>
+
+                                    <td>Tiempo promedio de servicios atendidos:</td>
+                                    <td><strong><span id="avg_time_web">33</span>s</strong></td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>Servicios atendidos con fallo:</td>
+                                    <td><strong><span id="failed_attended_web"></span></strong></td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+    </div>
+</div>
+
+<footer class="footer">
+    <p>By Carlos Perez</p>
+</footer>
+
+<script type="text/javascript" src="{% static "logmanagement/scripts/reportsforlogs.js" %} "></script>
+
 </body>
 </html>

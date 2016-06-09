@@ -1,4 +1,19 @@
 body{
-    margin: 3% 30% 0% 30%;
+    font-family: 'Roboto Mono', serif;
+    margin: 3% 3% 0% 3%;
+
+}
+
+.cal_pickers{
+    margin: 3% 27% 0% 27%;
+
+}
+
+.customize-icons{
+    font-size: 20px;
+}
+
+thead tr th{
+    vertical-align: middle;
 
 }
