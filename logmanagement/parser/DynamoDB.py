@@ -2,7 +2,7 @@ __author__ = 'charls'
 import os
 
 import boto3
-
+from botocore.exceptions import ClientError
 
 class DynamoBD:
     def __init__(self):
@@ -17,9 +17,14 @@ class DynamoBD:
 
     def putItem(self,item):
         table = self.dynamodb.Table('eventlogs')
-        table.put_item(
-            Item=item
-        )
+        try:
+            response = table.put_item(
+                Item=item
+            )
+        except ClientError as e:
+            print(e.response['Error']['Message'])
+
+        return response
 
     def getItem(self):
         table = self.dynamodb.Table('eventlogs')

@@ -41,7 +41,7 @@ class LogsParser:
 
         for regex in self.regex_structure_errors_mw_int:
             if regex.search(log_file_name):
-                self.parse_errors(os.path.join(folder_path, log_file_name), STRUCTURE_MW)
+                self.parse_and_count(os.path.join(folder_path, log_file_name), logs['log_level'][1])
                 return True
 
         for regex in self.regex_sndrcv_msgs:

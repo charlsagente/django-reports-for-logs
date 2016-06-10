@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 from LogsParser import LogsParser
 from LogsDictionary import *
-
+from DynamoDB import DynamoBD
 
 class Statistics:
     def __init__(self):
@@ -27,12 +27,19 @@ class Statistics:
                                                                                               'failed_attended': 0,
                                                                                               'sum_for_avg': []}}}
 
+        self.insert_items_to_bd()
         dates_between = self.get_dates_between(start_date, end_date)
 
         for key, value in self.logs[INTERNAL_MW].iteritems():
             if key in dates_between:
                 print key, value
                 counted_logs[INTERNAL_MW] += value
+
+
+        for device in self.logs[STRUCTURE_MW]:
+            for date in self.logs[STRUCTURE_MW][device]:
+                if date in dates_between:
+                    counted_logs[STRUCTURE_MW][device] += self.logs[STRUCTURE_MW][device][date]
 
         for key, value in self.logs[INTERNAL_MW_INT].iteritems():
             if key in dates_between:
@@ -65,3 +72,9 @@ class Statistics:
         d2 = date(int(end_date.split("-")[0]), int(end_date.split("-")[1]), int(end_date.split("-")[2]))
         dd = [str(d1 + timedelta(days=x)) for x in range((d2 - d1).days + 1)]
         return dd
+
+    def insert_items_to_bd(self):
+        bd= DynamoBD()
+
+        bd.putItem()
+

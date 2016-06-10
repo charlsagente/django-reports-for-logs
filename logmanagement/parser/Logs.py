@@ -23,10 +23,10 @@ class Logs:
             self.LogData[level][date] = 1
 
     def add_structure_counter(self,level,device,date):
-        if date in self.LogData[level][device]:
-            self.LogData[level][device][date]+=1
+        if date in self.LogData[STRUCTURE_MW][device]:
+            self.LogData[STRUCTURE_MW][device][date]+=1
         else:
-            self.LogData[level][device][date]=1
+            self.LogData[STRUCTURE_MW][device][date]=1
 
     def addRcvSnd(self, date, device_type, snd_or_rcv, address_response, execution_time,file):
 
