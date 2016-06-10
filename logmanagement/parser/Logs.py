@@ -1,7 +1,8 @@
 __author__ = 'charls'
-from LogsDictionary import INTERNAL_MW, INTERNAL_MW_INT, SNDRCVMSG,STRUCTURE_MW
+from LogsDictionary import *
 from DynamoDB import DynamoBD
-import time
+import os
+
 
 class Logs:
     def __init__(self):
@@ -10,6 +11,7 @@ class Logs:
             INTERNAL_MW: {},
             STRUCTURE_MW: {'W': {}, 'I': {}, 'A': {}},
             SNDRCVMSG: {'W': {}, 'I': {}, 'A': {}}
+
         }
         self.__addresses = set()
         self.DynamoDb = DynamoBD()
@@ -26,7 +28,7 @@ class Logs:
         else:
             self.LogData[level][device][date]=1
 
-    def addRcvSnd(self, date, device_type, snd_or_rcv, address_response, execution_time):
+    def addRcvSnd(self, date, device_type, snd_or_rcv, address_response, execution_time,file):
 
         if address_response in self.LogData[SNDRCVMSG][device_type.upper()] and not address_response in \
                 self.__addresses:
@@ -44,15 +46,7 @@ class Logs:
                                                                                                     address_response][
                                                                                                     'time_stamp'] ) / 1e9
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['response'] = True
-            insert = {
-                'execution_date_time': self.LogData[SNDRCVMSG][device_type.upper()][address_response]['id'],
-                'date':self.LogData[SNDRCVMSG][device_type.upper()][address_response]['date'],
-                'total_execution_time':str(self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp']),
-                'service_attended':self.LogData[SNDRCVMSG][device_type.upper()][address_response]['response'],
-                'device_type':device_type
-            }
-            #self.DynamoDb.putItem(insert)
-            #time.sleep(0.33)
+
 
         else:
             self.LogData[SNDRCVMSG][device_type.upper()][address_response] = {}
@@ -61,6 +55,9 @@ class Logs:
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = execution_time
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['response'] = False
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['snd_or_rcv'] = snd_or_rcv
+            self.LogData[SNDRCVMSG][device_type.upper()][address_response]['file'] = file.split(os.sep)[-2] + \
+                                                                                    os.sep+file.split(os.sep)[-1]
+
 
     def __del__(self):
         pass

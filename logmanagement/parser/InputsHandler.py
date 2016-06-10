@@ -21,10 +21,17 @@ class InputsHandler:
     def __del__(self):
         self.close()
 
+    def get_file_contents(self, folder,file):
+        self.set_path_for_filesystem()
+        with open(os.path.join(self.path_for_filesystem,folder,file), 'r') as content_file:
+            content = content_file.read()
+        return content
+
     def is_already_parsed(self, file):
         if file in self.__fingerprints:
             return True
         return False
+
 
     def already_parsed(self, file):
         if file in self.__fingerprints:

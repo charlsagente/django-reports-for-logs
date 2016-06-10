@@ -3,7 +3,7 @@ import os
 import re
 from InputsHandler import InputsHandler
 from Logs import Logs
-from LogsDictionary import dictionary, folders,logs,INTERNAL_MW,INTERNAL_MW_INT,SNDRCVMSG,STRUCTURE_MW
+from LogsDictionary import *
 import copy
 
 class LogsParser:
@@ -77,10 +77,10 @@ class LogsParser:
                 if r and  r.group('level') == logs['log_level'][6]:
                         if continuous_line:
                             continuous_line=False
-                            self.parse_sndrcv_complete_line(temp_line)
+                            self.parse_sndrcv_complete_line(temp_line,file)
                         if len(x.split('|'))>=8:
                             continuous_line=False
-                            self.parse_sndrcv_complete_line(x.strip())
+                            self.parse_sndrcv_complete_line(x.strip(), file)
                         else:
                             continuous_line = True
                             temp_line=x
@@ -89,7 +89,7 @@ class LogsParser:
                 else:
                     pass
 
-    def parse_sndrcv_complete_line(self, line):
+    def parse_sndrcv_complete_line(self, line,file):
         """
 
         :param line:
@@ -106,7 +106,7 @@ class LogsParser:
 
         if snd_or_rcv in ['SNDSS','RCVSS']:
             if re.match(self.regex_address_response, address_response):
-                self.in_memory_logs.addRcvSnd(date,device_type,snd_or_rcv,address_response,execution_time)
+                self.in_memory_logs.addRcvSnd(date,device_type,snd_or_rcv,address_response,execution_time,file)
             else:
                 pass
 

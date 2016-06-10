@@ -2,7 +2,7 @@ __author__ = 'charls'
 from datetime import date, timedelta
 
 from LogsParser import LogsParser
-from LogsDictionary import INTERNAL_MW, INTERNAL_MW_INT, SNDRCVMSG, STRUCTURE_MW
+from LogsDictionary import *
 
 
 class Statistics:
@@ -15,6 +15,7 @@ class Statistics:
         counted_logs = {INTERNAL_MW: 0,
                         INTERNAL_MW_INT: 0,
                         STRUCTURE_MW: {'W':0,'I':0,'A':0},
+                        PATH_LOG_ERRORS:{'W':[],'I':[],'A':[]},
                         SNDRCVMSG: {'W': {'success_attended': 0,
                                           'avg_time': 0,
                                           'failed_attended': 0,
@@ -47,6 +48,9 @@ class Statistics:
                         counted_logs[SNDRCVMSG][device]['sum_for_avg'].append(values['time_stamp'])
                     else:
                         counted_logs[SNDRCVMSG][device]['failed_attended'] += 1
+                        if not values['file'] in counted_logs[PATH_LOG_ERRORS][device]:
+                            counted_logs[PATH_LOG_ERRORS][device].append(values['file'])
+
             if len(counted_logs[SNDRCVMSG][device]['sum_for_avg']) > 0:
                 counted_logs[SNDRCVMSG][device]['avg_time'] = (sum(counted_logs[SNDRCVMSG][device]['sum_for_avg']) /
                                                                len(counted_logs[SNDRCVMSG][device]['sum_for_avg']))
