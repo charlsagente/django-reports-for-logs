@@ -9,7 +9,7 @@ class InputsHandler:
 
     def __init__(self, subfolder="seen"):
         self.__path = os.path.join(os.path.dirname(__file__),subfolder)
-        self.__linux_path = "$HOME/s3/logs"
+        self.__linux_path = os.path.join(os.environ['HOME'],"s3/logs")
         self.__windows_path = "C:\\reportsforlogs\\logs"
         self.__file = None
         self.__fingerprints = set()
