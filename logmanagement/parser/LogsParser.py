@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 __author__ = 'charls'
 import os
 import re
@@ -9,6 +11,12 @@ import copy
 class LogsParser:
 
     def __init__(self):
+        """
+        En el constructor de la clase se instancía inputshandler que contiene el path para el S.O.
+        y los métodos para verificar el archivo parsedfolders.seen con los archivos ya visitados.
+        Además se inicializan todas las expresiones regulares y se compilan por cuestiones de performance.
+        :return:
+        """
         self.__inputData = InputsHandler()
         self.regex_internal_errors_mw_int = [re.compile(p) for p in dictionary[INTERNAL_MW_INT]]
         self.regex_errors_mw_int = [re.compile(p) for p in dictionary[INTERNAL_MW]]
@@ -20,15 +28,28 @@ class LogsParser:
 
 
 
-
     def parse_backup_iteration(self, subfolder = folders['middleware_backups_folder']):
+        """
+        Este método se debe invocar en la clase Statistics para inicializar todo el proceso.
+        :param subfolder: Se envía el nombre de la subcarpeta en la que están los .log
+        :return: Una clase diccionario con los datos parseados.
+        """
+
         folder_path = os.path.join(self.__inputData.path_for_filesystem, subfolder)
         for log_files in os.listdir(folder_path):
             if not self.__inputData.is_already_parsed(log_files):
-                self.match_and_dispatch_backup_files(folder_path, log_files)
+                if self.match_and_dispatch_backup_files(folder_path, log_files):
+                    #self.__inputData.already_parsed(log_files)
+                    continue
         return copy.deepcopy(self.in_memory_logs.LogData)
 
     def match_and_dispatch_backup_files(self, folder_path, log_file_name):
+        """
+        Se buscan todas las posibles expresiones regulares con los nombres de los archivos.
+        :param folder_path:
+        :param log_file_name:
+        :return: True si se encuentra un archivo con una expresion regular, false si no
+        """
         for regex in self.regex_internal_errors_mw_int:
             if regex.search(log_file_name):
                self.parse_errors(os.path.join(folder_path, log_file_name), INTERNAL_MW_INT)
@@ -49,6 +70,8 @@ class LogsParser:
                 self.parse_sndrcv(os.path.join(folder_path,log_file_name))
                 return True
 
+        return False
+
     def parse_errors(self, file,log_type):
 
         with open(file, "r") as f:
@@ -59,7 +82,7 @@ class LogsParser:
                 if r and r.group('level') in logs['log_level'][0:4]:
                     print r.group('level'), r.group('date'), r.group('time')
                     self.in_memory_logs.add(log_type,r.group('date'))
-        self.__inputData.already_parsed(file.split(os.sep)[-1])
+        #self.__inputData.already_parsed(file.split(os.sep)[-1])
 
     def parse_sndrcv(self,file):
         """
