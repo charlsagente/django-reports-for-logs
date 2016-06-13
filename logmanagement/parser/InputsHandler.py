@@ -9,8 +9,6 @@ class InputsHandler:
 
     def __init__(self, subfolder="seen"):
         self.__path = os.path.join(os.path.dirname(__file__),subfolder)
-        self.__linux_path = os.path.join(os.environ['HOME'],"s3/logs")
-        self.__windows_path = "C:\\reportsforlogs\\logs"
         self.__file = None
         self.__fingerprints = set()
         self.set_path_for_filesystem()
@@ -43,10 +41,10 @@ class InputsHandler:
 
     def set_path_for_filesystem(self):
         if _platform == "linux" or _platform == "linux2":
-            self.path_for_filesystem = self.__linux_path
+            self.path_for_filesystem = os.path.join(os.environ['HOME'],"s3/logs")
 
         elif _platform == "win32":
-            self.path_for_filesystem = self.__windows_path
+            self.path_for_filesystem = "C:\\reportsforlogs\\logs"
 
     def close(self):
         if self.__file:

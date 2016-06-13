@@ -1,21 +1,17 @@
 from django.test import TestCase
 from parser.LogsParser import LogsParser
 from parser.Statistics import Statistics
-from parser.DynamoDB import DynamoBD
+from models import DateFile
+
 
 class TestPath(TestCase):
 
     def test_get_paths(self):
-        bd=DynamoBD()
-
-        item={
-            'execution_date_time': 2344433434342,
-            'dia':True,
-            'noche':False
-        }
-        try:
-            print bd.putItem(item)
-        except Exception as ex:
-            print ex
-
-        self.assertTrue(True)
+       pk=DateFile.objects.create(fecha_archivo="2015-02-11_archivo1.log", fecha="2015-02-11",archivo="pt-midd.log")
+       pk.save()
+       pk=DateFile.objects.create(fecha_archivo="2015-02-11_archivo2.log", fecha="2015-02-11",archivo="pt-midd.log")
+       pk.save()
+       pk=DateFile.objects.create(fecha_archivo="2015-02-11_archivo3.log", fecha="2015-02-11",archivo="pt-midd.log")
+       pk.save()
+       print DateFile.objects.values_list('fecha_archivo',flat=True)
+       print DateFile.objects.all()

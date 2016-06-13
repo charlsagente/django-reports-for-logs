@@ -9,6 +9,8 @@ class Statistics:
     def __init__(self):
         parser = LogsParser()
         self.logs = parser.parse_backup_iteration()
+        #self.bd=DynamoBD()
+        #self.insert_items_sendrcv()
 
     def count_logs_by_log_level(self, start_date, end_date):
 
@@ -27,7 +29,7 @@ class Statistics:
                                                                                               'failed_attended': 0,
                                                                                               'sum_for_avg': []}}}
 
-        #self.insert_items_to_bd()
+
         dates_between = self.get_dates_between(start_date, end_date)
 
         for key, value in self.logs[INTERNAL_MW].iteritems():
@@ -73,10 +75,21 @@ class Statistics:
         dd = [str(d1 + timedelta(days=x)) for x in range((d2 - d1).days + 1)]
         return dd
 
-    def insert_items_to_bd(self,item):
-        bd= DynamoBD()
+    def insert_items_sendrcv(self):
+        for device in self.logs[SNDRCVMSG]:
+            for address_response in self.logs[SNDRCVMSG][device]:
+                values = self.logs[SNDRCVMSG][device][address_response]
+                self.push_to_bd(values,device)
+
+
+    def push_to_bd(self,item,device):
+        if not self.bd:
+            self.bd=DynamoBD()
         try:
-            bd.putItem(item)
+            item['time_stamp']=str(item['time_stamp'])
+            item['device']=device
+            self.bd.putItem(item)
         except Exception as ex:
             print ex
+
 

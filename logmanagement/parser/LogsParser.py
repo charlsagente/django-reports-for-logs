@@ -39,8 +39,8 @@ class LogsParser:
         for log_files in os.listdir(folder_path):
             if not self.__inputData.is_already_parsed(log_files):
                 if self.match_and_dispatch_backup_files(folder_path, log_files):
-                    #self.__inputData.already_parsed(log_files)
-                    continue
+                    self.__inputData.already_parsed(log_files)
+                    #continue
         return copy.deepcopy(self.in_memory_logs.LogData)
 
     def match_and_dispatch_backup_files(self, folder_path, log_file_name):

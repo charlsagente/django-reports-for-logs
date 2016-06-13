@@ -50,13 +50,12 @@ class Logs:
 
         else:
             self.LogData[SNDRCVMSG][device_type.upper()][address_response] = {}
-            self.LogData[SNDRCVMSG][device_type.upper()][address_response]['id'] = long(execution_time)
+            self.LogData[SNDRCVMSG][device_type.upper()][address_response]['execution_date_time'] = long(execution_time)
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['date'] = date
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = execution_time
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['response'] = False
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['snd_or_rcv'] = snd_or_rcv
-            self.LogData[SNDRCVMSG][device_type.upper()][address_response]['file'] = file.split(os.sep)[-2] + \
-                                                                                    os.sep+file.split(os.sep)[-1]
+            self.LogData[SNDRCVMSG][device_type.upper()][address_response]['file'] = os.sep+file.split(os.sep)[-1]
 
 
     def __del__(self):
