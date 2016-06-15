@@ -7,6 +7,7 @@ from InputsHandler import InputsHandler
 from Logs import Logs
 from LogsDictionary import *
 import copy
+from logmanagement.models import DateFile
 
 class LogsParser:
 
@@ -26,21 +27,32 @@ class LogsParser:
         self.regex_address_response = re.compile(r'\w{8}-\w{4}-\w{4}-\w{4}-\w{12}')
         self.in_memory_logs = Logs()
 
+    def get_Inputs_Handler(self):
+        return self.__inputData
 
-
-    def parse_backup_iteration(self, subfolder = folders['middleware_backups_folder']):
+    def parse_backup_iteration(self,start_date,end_date ):
         """
         Este método se debe invocar en la clase Statistics para inicializar todo el proceso.
         :param subfolder: Se envía el nombre de la subcarpeta en la que están los .log
         :return: Una clase diccionario con los datos parseados.
         """
 
-        folder_path = os.path.join(self.__inputData.path_for_filesystem, subfolder)
-        for log_files in os.listdir(folder_path):
-            if not self.__inputData.is_already_parsed(log_files):
-                if self.match_and_dispatch_backup_files(folder_path, log_files):
-                    self.__inputData.already_parsed(log_files)
-                    #continue
+        mw_backup_folder_path = os.path.join(self.__inputData.path_for_filesystem, folders['middleware_backups_folder'])
+
+        log_files = DateFile.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date)\
+            .order_by('archivo').values('archivo').distinct()
+        already_parsed_files = [f.archivo for f in DateFile.objects.all().order_by('archivo')]
+
+
+        for entry in log_files:
+            self.match_and_dispatch_backup_files(mw_backup_folder_path, entry['archivo'])
+
+
+        for log_files in os.listdir(mw_backup_folder_path):
+            if not log_files in already_parsed_files:
+                self.match_and_dispatch_backup_files(mw_backup_folder_path, log_files.split(os.sep)[-1])
+
+
         return copy.deepcopy(self.in_memory_logs.LogData)
 
     def match_and_dispatch_backup_files(self, folder_path, log_file_name):
@@ -81,7 +93,7 @@ class LogsParser:
                 r = re.match(self.regex_log_level_timestamp, x.strip())
                 if r and r.group('level') in logs['log_level'][0:4]:
                     print r.group('level'), r.group('date'), r.group('time')
-                    self.in_memory_logs.add(log_type,r.group('date'))
+                    self.in_memory_logs.add(log_type,r.group('date'),file.split(os.sep)[-1])
         #self.__inputData.already_parsed(file.split(os.sep)[-1])
 
     def parse_sndrcv(self,file):

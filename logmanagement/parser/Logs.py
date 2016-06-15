@@ -16,11 +16,19 @@ class Logs:
         self.__addresses = set()
         self.DynamoDb = DynamoBD()
 
-    def add(self, level, date):
+    def add(self, level, date, file_name):
         if date in self.LogData[level]:
             self.LogData[level][date] += 1
         else:
             self.LogData[level][date] = 1
+
+        if 'files' in self.LogData[level]:
+            if not file_name in self.LogData[level]['files']:
+                self.LogData[level]['files'].append(file_name)
+        else:
+            self.LogData[level]['files'] = []
+            self.LogData[level]['files'].append(file_name)
+
 
     def add_structure_counter(self,level,device,date):
         if date in self.LogData[STRUCTURE_MW][device]:
@@ -55,7 +63,9 @@ class Logs:
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = execution_time
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['response'] = False
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['snd_or_rcv'] = snd_or_rcv
-            self.LogData[SNDRCVMSG][device_type.upper()][address_response]['file'] = os.sep+file.split(os.sep)[-1]
+            self.LogData[SNDRCVMSG][device_type.upper()][address_response]['file'] = file.split(os.sep)[-2]+\
+                                                                                     os.sep + file.split(os.sep)[-1]
+
 
 
     def __del__(self):

@@ -3,21 +3,24 @@ from datetime import date, timedelta
 
 from LogsParser import LogsParser
 from LogsDictionary import *
-from DynamoDB import DynamoBD
+from logmanagement.models import DateFile
+
+import os
 
 class Statistics:
-    def __init__(self):
-        parser = LogsParser()
-        self.logs = parser.parse_backup_iteration()
-        #self.bd=DynamoBD()
-        #self.insert_items_sendrcv()
+    def __init__(self,start_date,end_date):
+        self.start_date=start_date
+        self.end_date=end_date
+        self.parser = LogsParser()
+        self.logs = self.parser.parse_backup_iteration(self.start_date, self.end_date)
+        self.index_files()
 
-    def count_logs_by_log_level(self, start_date, end_date):
+    def count_logs_by_log_level(self):
 
         counted_logs = {INTERNAL_MW: 0,
                         INTERNAL_MW_INT: 0,
-                        STRUCTURE_MW: {'W':0,'I':0,'A':0},
-                        PATH_LOG_ERRORS:{'W':[],'I':[],'A':[]},
+                        STRUCTURE_MW: {'W': 0, 'I': 0, 'A': 0},
+                        PATH_LOG_ERRORS: {'W': [], 'I': [], 'A': []},
                         SNDRCVMSG: {'W': {'success_attended': 0,
                                           'avg_time': 0,
                                           'failed_attended': 0,
@@ -29,67 +32,71 @@ class Statistics:
                                                                                               'failed_attended': 0,
                                                                                               'sum_for_avg': []}}}
 
+        dates_between = self.get_dates_between()
 
-        dates_between = self.get_dates_between(start_date, end_date)
+        if self.logs:
+            if self.logs[INTERNAL_MW]:
+                for key, value in self.logs[INTERNAL_MW].iteritems():
+                    if key in dates_between:
+                        print "INTERNAL_MW " , key, value
+                        counted_logs[INTERNAL_MW] += value
 
-        for key, value in self.logs[INTERNAL_MW].iteritems():
-            if key in dates_between:
-                print key, value
-                counted_logs[INTERNAL_MW] += value
+            if self.logs[STRUCTURE_MW]:
+                for device in self.logs[STRUCTURE_MW]:
+                    for date in self.logs[STRUCTURE_MW][device]:
+                        if date in dates_between:
+                            counted_logs[STRUCTURE_MW][device] += self.logs[STRUCTURE_MW][device][date]
 
+            if self.logs[INTERNAL_MW_INT]:
+                for key, value in self.logs[INTERNAL_MW_INT].iteritems():
+                    if key in dates_between:
+                        counted_logs[INTERNAL_MW_INT] += value
+                        print "INTERNAL_MW_INT",key, value
 
-        for device in self.logs[STRUCTURE_MW]:
-            for date in self.logs[STRUCTURE_MW][device]:
-                if date in dates_between:
-                    counted_logs[STRUCTURE_MW][device] += self.logs[STRUCTURE_MW][device][date]
+            if self.logs[SNDRCVMSG]:
+                for device in self.logs[SNDRCVMSG]:
+                    for address_response in self.logs[SNDRCVMSG][device]:
+                        values = self.logs[SNDRCVMSG][device][address_response]
+                        if values['date'] in dates_between:
+                            if values['response']:
+                                counted_logs[SNDRCVMSG][device]['success_attended'] += 1
+                                counted_logs[SNDRCVMSG][device]['sum_for_avg'].append(values['time_stamp'])
+                            else:
+                                counted_logs[SNDRCVMSG][device]['failed_attended'] += 1
+                                if not values['file'] in counted_logs[PATH_LOG_ERRORS][device]:
+                                    counted_logs[PATH_LOG_ERRORS][device].append(values['file'])
 
-        for key, value in self.logs[INTERNAL_MW_INT].iteritems():
-            if key in dates_between:
-                counted_logs[INTERNAL_MW_INT] += value
-                print key, value
-
-        for device in self.logs[SNDRCVMSG]:
-            for address_response in self.logs[SNDRCVMSG][device]:
-                values = self.logs[SNDRCVMSG][device][address_response]
-                if values['date'] in dates_between:
-                    if values['response']:
-                        counted_logs[SNDRCVMSG][device]['success_attended'] += 1
-                        counted_logs[SNDRCVMSG][device]['sum_for_avg'].append(values['time_stamp'])
-                    else:
-                        counted_logs[SNDRCVMSG][device]['failed_attended'] += 1
-                        if not values['file'] in counted_logs[PATH_LOG_ERRORS][device]:
-                            counted_logs[PATH_LOG_ERRORS][device].append(values['file'])
-
-            if len(counted_logs[SNDRCVMSG][device]['sum_for_avg']) > 0:
-                counted_logs[SNDRCVMSG][device]['avg_time'] = (sum(counted_logs[SNDRCVMSG][device]['sum_for_avg']) /
-                                                               len(counted_logs[SNDRCVMSG][device]['sum_for_avg']))
-                counted_logs[SNDRCVMSG][device]['avg_time'] = round(counted_logs[SNDRCVMSG][device]['avg_time'], 2)
-                del counted_logs[SNDRCVMSG][device]['sum_for_avg'][:]
-            del counted_logs[SNDRCVMSG][device]['sum_for_avg']
+                    if len(counted_logs[SNDRCVMSG][device]['sum_for_avg']) > 0:
+                        counted_logs[SNDRCVMSG][device]['avg_time'] = (sum(counted_logs[SNDRCVMSG][device]['sum_for_avg']) /
+                                                                       len(counted_logs[SNDRCVMSG][device]['sum_for_avg']))
+                        counted_logs[SNDRCVMSG][device]['avg_time'] = round(counted_logs[SNDRCVMSG][device]['avg_time'], 3)
+                        del counted_logs[SNDRCVMSG][device]['sum_for_avg'][:]
+                    del counted_logs[SNDRCVMSG][device]['sum_for_avg']
 
         return counted_logs
 
-    def get_dates_between(self, start_date, end_date):
-        d1 = date(int(start_date.split("-")[0]), int(start_date.split("-")[1]), int(start_date.split("-")[2]))
-        d2 = date(int(end_date.split("-")[0]), int(end_date.split("-")[1]), int(end_date.split("-")[2]))
+    def get_dates_between(self):
+        d1 = date(int(self.start_date.split("-")[0]), int(self.start_date.split("-")[1]), int(self.start_date.split("-")[2]))
+        d2 = date(int(self.end_date.split("-")[0]), int(self.end_date.split("-")[1]), int(self.end_date.split("-")[2]))
         dd = [str(d1 + timedelta(days=x)) for x in range((d2 - d1).days + 1)]
         return dd
 
-    def insert_items_sendrcv(self):
-        for device in self.logs[SNDRCVMSG]:
-            for address_response in self.logs[SNDRCVMSG][device]:
-                values = self.logs[SNDRCVMSG][device][address_response]
-                self.push_to_bd(values,device)
+    def index_files(self):
+        if self.logs:
+            files = set()
 
-
-    def push_to_bd(self,item,device):
-        if not self.bd:
-            self.bd=DynamoBD()
-        try:
-            item['time_stamp']=str(item['time_stamp'])
-            item['device']=device
-            self.bd.putItem(item)
-        except Exception as ex:
-            print ex
+            for device in self.logs[SNDRCVMSG]:
+                for address_response in self.logs[SNDRCVMSG][device]:
+                    values = self.logs[SNDRCVMSG][device][address_response]
+                    if not values['date'] + "-" + values['file'].split(os.sep)[-1] in files\
+                            and values['file'].split(os.sep)[-2] != "mw":
+                        try:
+                            DateFile.objects.create(fecha_archivo=values['date'] + "-" + values['file'].split(os.sep)[-1],
+                                                        fecha=values['date'],
+                                                            archivo=values['file'].split(os.sep)[-1]).save()
+                        except Exception as ex:
+                            print "Statistics.index_files ", ex
+                        finally:
+                            files.add(values['date'] + "-" + values['file'].split(os.sep)[-1])
 
 
