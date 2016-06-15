@@ -43,14 +43,17 @@ class LogsParser:
             .order_by('archivo').values('archivo').distinct()
         already_parsed_files = [f.archivo for f in DateFile.objects.all().order_by('archivo')]
 
-
         for entry in log_files:
             self.match_and_dispatch_backup_files(mw_backup_folder_path, entry['archivo'])
 
-
         for log_files in os.listdir(mw_backup_folder_path):
-            if not log_files in already_parsed_files:
-                self.match_and_dispatch_backup_files(mw_backup_folder_path, log_files.split(os.sep)[-1])
+            if log_files not in already_parsed_files:
+                self.match_and_dispatch_backup_files(mw_backup_folder_path, log_files)
+
+        mw_folder_path = os.path.join(self.__inputData.path_for_filesystem, folders['middleware_folder'])
+        for log_files in os.listdir(mw_folder_path):
+            self.match_and_dispatch_backup_files(mw_folder_path, log_files)
+
 
 
         return copy.deepcopy(self.in_memory_logs.LogData)

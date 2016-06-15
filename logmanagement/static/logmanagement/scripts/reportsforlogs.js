@@ -64,7 +64,7 @@ $(function () {
 
                 if (data['pathlogs']['A'].length > 0) {
                     $('#failed_attended_android').html(
-                        '<a href="#" data-toggle="modal" data-target="#myModal" data-loglist="' + data['pathlogs']['A'].join() + '">' +
+                        '<a href="#" data-toggle="modal" data-target="#myModal" data-loglist="' + data['pathlogs']['A'].sort().join() + '">' +
                         data['sndrcvmsgs']['A']['failed_attended'] + '</a>'
                     );
                 }
@@ -78,7 +78,7 @@ $(function () {
                 $('#structure_errors_ios').text(data['structure-mw']['I']);
                 if (data['pathlogs']['I'].length > 0) {
                     $('#failed_attended_ios').html(
-                        '<a href="#" data-toggle="modal" data-target="#myModal" data-loglist="' + data['pathlogs']['I'].join() + '">' +
+                        '<a href="#" data-toggle="modal" data-target="#myModal" data-loglist="' + data['pathlogs']['I'].sort().join() + '">' +
                         data['sndrcvmsgs']['I']['failed_attended'] + '</a>'
                     );
                 }
@@ -91,7 +91,7 @@ $(function () {
                 $('#structure_errors_web').text(data['structure-mw']['W']);
                 if (data['pathlogs']['W'].length > 0) {
                     $('#failed_attended_web').html(
-                        '<a href="#" data-toggle="modal" data-target="#myModal" data-loglist="' + data['pathlogs']['W'].join() + '">' +
+                        '<a href="#" data-toggle="modal" data-target="#myModal" data-loglist="' + data['pathlogs']['W'].sort().join() + '">' +
                         data['sndrcvmsgs']['W']['failed_attended'] + '</a>'
                     );
                 }
@@ -103,13 +103,13 @@ $(function () {
                 $('strong span').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
                     $('strong span').removeClass('animated bounceInLeft');
                 });
-                $('#btnsubmit').html('Buscar');
+                $('#btnsubmit').text('Buscar');
                 $('#btnsubmit').removeAttr('disabled');
 
             },
             error: function () {
                 alert("Error");
-                $('#btnsubmit').html('Buscar');
+                $('#btnsubmit').text('Buscar');
                 $('#btnsubmit').removeAttr('disabled');
             }
         });
