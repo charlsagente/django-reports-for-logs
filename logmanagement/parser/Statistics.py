@@ -35,25 +35,25 @@ class Statistics:
         dates_between = self.get_dates_between()
 
         if self.logs:
-            if self.logs[INTERNAL_MW]:
+            if INTERNAL_MW in self.logs:
                 for key, value in self.logs[INTERNAL_MW].iteritems():
                     if key in dates_between:
                         print "INTERNAL_MW " , key, value
                         counted_logs[INTERNAL_MW] += value
 
-            if self.logs[STRUCTURE_MW]:
+            if STRUCTURE_MW in self.logs:
                 for device in self.logs[STRUCTURE_MW]:
                     for date in self.logs[STRUCTURE_MW][device]:
                         if date in dates_between:
                             counted_logs[STRUCTURE_MW][device] += self.logs[STRUCTURE_MW][device][date]
 
-            if self.logs[INTERNAL_MW_INT]:
+            if INTERNAL_MW_INT in self.logs:
                 for key, value in self.logs[INTERNAL_MW_INT].iteritems():
                     if key in dates_between:
                         counted_logs[INTERNAL_MW_INT] += value
                         print "INTERNAL_MW_INT",key, value
 
-            if self.logs[SNDRCVMSG]:
+            if SNDRCVMSG in self.logs:
                 for device in self.logs[SNDRCVMSG]:
                     for address_response in self.logs[SNDRCVMSG][device]:
                         values = self.logs[SNDRCVMSG][device][address_response]
@@ -96,6 +96,7 @@ class Statistics:
                                                             archivo=values['file'].split(os.sep)[-1]).save()
                         except Exception as ex:
                             print "Statistics.index_files ", ex
+                            self.parser.get_Inputs_Handler().log("Statistics.index_files "+ex.message)
                         finally:
                             files.add(values['date'] + "-" + values['file'].split(os.sep)[-1])
 

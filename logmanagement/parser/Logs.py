@@ -22,12 +22,7 @@ class Logs:
         else:
             self.LogData[level][date] = 1
 
-        if 'files' in self.LogData[level]:
-            if not file_name in self.LogData[level]['files']:
-                self.LogData[level]['files'].append(file_name)
-        else:
-            self.LogData[level]['files'] = []
-            self.LogData[level]['files'].append(file_name)
+
 
 
     def add_structure_counter(self,level,device,date):
