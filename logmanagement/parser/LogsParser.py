@@ -36,13 +36,16 @@ class LogsParser:
         :param subfolder: Se envía el nombre de la subcarpeta en la que están los .log
         :return: Una clase diccionario con los datos parseados.
         """
+        try:
+            mw_backup_folder_path = os.path.join(self.__inputData.path_for_filesystem, folders['middleware_backups_folder'])
 
-        mw_backup_folder_path = os.path.join(self.__inputData.path_for_filesystem, folders['middleware_backups_folder'])
+            log_files = DateFile.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date)\
+                .order_by('archivo').values('archivo').distinct()
+            already_parsed_files = [f.archivo for f in DateFile.objects.all().order_by('archivo')]
+        except Exception as ex:
+            self.__inputData.log("Excepcion con lectura de la BD"+ex)
 
-        log_files = DateFile.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date)\
-            .order_by('archivo').values('archivo').distinct()
-        already_parsed_files = [f.archivo for f in DateFile.objects.all().order_by('archivo')]
-
+        self.__inputData.log("Leyendo mensajes")
         for entry in log_files:
             self.match_and_dispatch_backup_files(mw_backup_folder_path, entry['archivo'])
 
