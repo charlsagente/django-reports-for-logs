@@ -3,15 +3,15 @@ from parser.LogsParser import LogsParser
 from parser.Statistics import Statistics
 from models import DateFile
 import datetime
+import re
+
 
 class TestPath(TestCase):
 
     def test_get_paths(self):
-       pk=DateFile.objects.create(fecha_archivo="2015-02-11_archivo1.log", fecha="2015-02-11",archivo="pt-midd.log")
-       pk.save()
-       pk=DateFile.objects.create(fecha_archivo="2015-02-11_archivo2.log", fecha="2015-02-11",archivo="pt-midd.log")
-       pk.save()
-       pk=DateFile.objects.create(fecha_archivo="2015-02-11_archivo3.log", fecha="2015-02-11",archivo="pt-midd.log")
-       pk.save()
-       print DateFile.objects.values_list('fecha',flat=True)
-       print DateFile.objects.all()
+       text="e6d3acff-d193-45db-9c0d-48439072bde7-SS"
+       regex_address_response = re.compile(r'\w{8}-\w{4}-\w{4}-\w{4}-\w{12}')
+       if re.match(regex_address_response, text):
+          pass
+
+

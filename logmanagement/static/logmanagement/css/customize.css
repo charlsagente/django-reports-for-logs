@@ -11,7 +11,29 @@ body{
     font-size: 20px;
 }
 
-thead tr th{
-    vertical-align: middle;
+thead th{
+    vertical-align: middle !important;
+    text-align: center;
 
+}
+
+tbody td {
+
+    vertical-align: middle !important;
+}
+
+textarea{
+    text-align: justify;
+    white-space: normal;
+    overflow: auto;
+}
+
+
+
+.modal-dialog {
+    width: 90%; /* desired relative width */
+    left: 5%; /* (100%-width)/2 */
+    /* place center */
+    margin-left:auto;
+    margin-right:auto;
 }

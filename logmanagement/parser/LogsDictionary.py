@@ -5,6 +5,7 @@ INTERNAL_MW = 'errors-mw-int'
 STRUCTURE_MW = 'structure-mw'
 SNDRCVMSG = 'sndrcvmsgs'
 PATH_LOG_ERRORS='pathlogs'
+COUNTERS_ERRORS_EACH_FILE='counter_errors_each_file'
 
 dictionary = {
     INTERNAL_MW_INT: ['Integrator-Internal-SocieChat',

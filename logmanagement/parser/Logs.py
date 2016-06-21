@@ -31,7 +31,7 @@ class Logs:
         else:
             self.LogData[STRUCTURE_MW][device][date]=1
 
-    def addRcvSnd(self, date, device_type, snd_or_rcv, address_response, execution_time,file):
+    def addRcvSnd(self, date, device_type, snd_or_rcv, address_response, execution_time,file,line_number):
 
         if address_response in self.LogData[SNDRCVMSG][device_type.upper()] and not address_response in \
                 self.__addresses:
@@ -60,6 +60,8 @@ class Logs:
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['snd_or_rcv'] = snd_or_rcv
             self.LogData[SNDRCVMSG][device_type.upper()][address_response]['file'] = file.split(os.sep)[-2]+\
                                                                                      os.sep + file.split(os.sep)[-1]
+            self.LogData[SNDRCVMSG][device_type.upper()][address_response]['line_number'] = line_number
+
 
 
 

@@ -2,6 +2,9 @@
  * Created by Charls on 09/06/2016.
  */
 $(function () {
+
+    var global_logs_values;
+
     $('#datetimepicker6').datetimepicker({
         format: 'YYYY-MM-DD'
     });
@@ -21,22 +24,53 @@ $(function () {
     $('#myModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var recipient = button.data('loglist') // Extract info from data-* attributes
+        var device_type = button.data('device-type');
         list = recipient.split(",")
 
-        var modal = $(this)
+        var modal = $(this);
 
-        $(modal.find('.modal-body .list-group')).empty();
+
+        $(modal.find('.modal-body table tbody')).empty();
+
         $.each(list, function (index, val) {
-            modal.find('.modal-body .list-group').append(
-                $('<a>', {
-                    href: val,
-                    target: "_blank",
-                    html: '<button type="button" class="list-group-item">' + val + '</button>'
-                })
+            var ctr_files = {};
+            if (global_logs_values[device_type].hasOwnProperty(val))
+                ctr_files = global_logs_values[device_type][val];
+            else
+                ctr_files = {'line_coounters': 0, 'lines': [0]};
+
+            modal.find('.modal-body table tbody').append(
+                $('<tr>').append(
+                    $('<td>').append(
+                        $('<a>', {
+                            href: val,
+                            target: "_blank",
+                            text: val
+                            //html: '<button type="button" class="list-group-item">' + val + '</button>'
+                        })
+                    )
+                ).append(
+                    $('<td>', {
+                            html:'<strong>' + ctr_files.line_counters + '</strong>',
+                            align:'center'
+                        }
+                    )
+                ).append(
+                    $('<td>').append(
+                        $('<textarea>', {
+                            class:"form-control",
+                            rows: "3",
+                            text: ctr_files.lines.sort().join(", ")
+                        })
+                    )
+                )
             );
+
+
         });
 
-    })
+
+    });
 
 
     $('#btnsubmit').on('click', function (e) {
@@ -55,6 +89,7 @@ $(function () {
             success: function (data) {
 
                 console.log(data);
+                global_logs_values = data['counter_errors_each_file'];
                 $('#internal_errors_mw').text(data['internal-errors-mw-int']);
                 $('#errors_mw').text(data['errors-mw-int']);
 
@@ -64,7 +99,7 @@ $(function () {
 
                 if (data['pathlogs']['A'].length > 0) {
                     $('#failed_attended_android').html(
-                        '<a href="#" data-toggle="modal" data-target="#myModal" data-loglist="' + data['pathlogs']['A'].sort().join() + '">' +
+                        '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="A" data-loglist="' + data['pathlogs']['A'].sort().join() + '">' +
                         data['sndrcvmsgs']['A']['failed_attended'] + '</a>'
                     );
                 }
@@ -78,7 +113,7 @@ $(function () {
                 $('#structure_errors_ios').text(data['structure-mw']['I']);
                 if (data['pathlogs']['I'].length > 0) {
                     $('#failed_attended_ios').html(
-                        '<a href="#" data-toggle="modal" data-target="#myModal" data-loglist="' + data['pathlogs']['I'].sort().join() + '">' +
+                        '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="I" data-loglist="' + data['pathlogs']['I'].sort().join() + '">' +
                         data['sndrcvmsgs']['I']['failed_attended'] + '</a>'
                     );
                 }
@@ -91,7 +126,7 @@ $(function () {
                 $('#structure_errors_web').text(data['structure-mw']['W']);
                 if (data['pathlogs']['W'].length > 0) {
                     $('#failed_attended_web').html(
-                        '<a href="#" data-toggle="modal" data-target="#myModal" data-loglist="' + data['pathlogs']['W'].sort().join() + '">' +
+                        '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="W" data-loglist="' + data['pathlogs']['W'].sort().join() + '">' +
                         data['sndrcvmsgs']['W']['failed_attended'] + '</a>'
                     );
                 }
