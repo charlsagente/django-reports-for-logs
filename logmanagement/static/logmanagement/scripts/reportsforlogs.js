@@ -46,7 +46,6 @@ $(function () {
                             href: val,
                             target: "_blank",
                             text: val
-                            //html: '<button type="button" class="list-group-item">' + val + '</button>'
                         })
                     )
                 ).append(
@@ -104,7 +103,7 @@ $(function () {
                     );
                 }
                 else {
-                    $('#failed_attended_android').text(data['sndrcvmsgs']['W']['failed_attended']);
+                    $('#failed_attended_android').text(data['sndrcvmsgs']['A']['failed_attended']);
                 }
 
 

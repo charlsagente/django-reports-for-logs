@@ -33,22 +33,22 @@ class Logs:
 
     def addRcvSnd(self, date, device_type, snd_or_rcv, address_response, execution_time,file,line_number):
 
-        if address_response in self.LogData[SNDRCVMSG][device_type.upper()] and not address_response in \
-                self.__addresses:
+        if address_response in self.LogData[SNDRCVMSG][device_type.upper()]:
+            if address_response not in self.__addresses:
 
-            self.__addresses.add(address_response)
-            last_send_or_receive=self.LogData[SNDRCVMSG][device_type.upper()][address_response]['snd_or_rcv']
-            if last_send_or_receive=="RCVSS":
-                self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = (self.LogData[SNDRCVMSG][
-                                                                                                device_type.upper()][
-                                                                                                address_response][
-                                                                                                'time_stamp'] - execution_time) / 1e9
-            elif last_send_or_receive=="SNDSS":
-                self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = (execution_time - self.LogData[SNDRCVMSG][
+                self.__addresses.add(address_response)
+                last_send_or_receive=self.LogData[SNDRCVMSG][device_type.upper()][address_response]['snd_or_rcv']
+                if last_send_or_receive=="RCVSS":
+                    self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = (self.LogData[SNDRCVMSG][
                                                                                                     device_type.upper()][
                                                                                                     address_response][
-                                                                                                    'time_stamp'] ) / 1e9
-            self.LogData[SNDRCVMSG][device_type.upper()][address_response]['response'] = True
+                                                                                                    'time_stamp'] - execution_time) / 1e9
+                elif last_send_or_receive=="SNDSS":
+                    self.LogData[SNDRCVMSG][device_type.upper()][address_response]['time_stamp'] = (execution_time - self.LogData[SNDRCVMSG][
+                                                                                                        device_type.upper()][
+                                                                                                        address_response][
+                                                                                                        'time_stamp'] ) / 1e9
+                self.LogData[SNDRCVMSG][device_type.upper()][address_response]['response'] = True
 
 
         else:

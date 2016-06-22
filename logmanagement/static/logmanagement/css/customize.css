@@ -4,14 +4,14 @@ body{
 }
 
 .cal_pickers{
-    margin: 3% 27% 0% 27%;
+    margin: 3% 32% 0% 32%;
 }
 
 .customize-icons{
     font-size: 20px;
 }
 
-thead th{
+.modal-body thead th{
     vertical-align: middle !important;
     text-align: center;
 
