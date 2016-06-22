@@ -9,7 +9,7 @@ $(function () {
         format: 'YYYY-MM-DD'
     });
     $('#datetimepicker7').datetimepicker({
-        useCurrent: false, //Important! See issue #1075
+
         format: 'YYYY-MM-DD'
     });
     $("#datetimepicker6").on("dp.change", function (e) {
