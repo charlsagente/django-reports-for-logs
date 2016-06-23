@@ -2,7 +2,9 @@
  * Created by Charls on 09/06/2016.
  */
 $(function () {
-
+    $("#table-web-pt-errors").hide();
+    $("#table-android-pt-errors").hide();
+    $("#table-ios-pt-errors").hide();
     var global_logs_values;
 
     $('#datetimepicker6').datetimepicker({
@@ -50,14 +52,14 @@ $(function () {
                     )
                 ).append(
                     $('<td>', {
-                            html:'<strong>' + ctr_files.line_counters + '</strong>',
-                            align:'center'
+                            html: '<strong>' + ctr_files.line_counters + '</strong>',
+                            align: 'center'
                         }
                     )
                 ).append(
                     $('<td>').append(
                         $('<textarea>', {
-                            class:"form-control",
+                            class: "form-control",
                             rows: "3",
                             text: ctr_files.lines.sort().join(", ")
                         })
@@ -80,7 +82,7 @@ $(function () {
             function () {
                 $('strong span').text("");
                 $('strong span').removeClass('animated zoomOutRight');
-        });
+            });
 
         $.ajax({
             type: "GET",
@@ -100,8 +102,8 @@ $(function () {
                 if (data['pathlogs']['A'].length > 0) {
                     $('#failed_attended_android').html(
                         '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="A" data-loglist="' +
-                            data['pathlogs']['A'].sort().join() + '">' +
-                                data['sndrcvmsgs']['A']['failed_attended'] + '</a>'
+                        data['pathlogs']['A'].sort().join() + '">' +
+                        data['sndrcvmsgs']['A']['failed_attended'] + '</a>'
                     );
                 }
                 else {
@@ -115,8 +117,8 @@ $(function () {
                 if (data['pathlogs']['I'].length > 0) {
                     $('#failed_attended_ios').html(
                         '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="I" data-loglist="' +
-                            data['pathlogs']['I'].sort().join() + '">' +
-                                data['sndrcvmsgs']['I']['failed_attended'] + '</a>'
+                        data['pathlogs']['I'].sort().join() + '">' +
+                        data['sndrcvmsgs']['I']['failed_attended'] + '</a>'
                     );
                 }
                 else {
@@ -129,23 +131,55 @@ $(function () {
                 if (data['pathlogs']['W'].length > 0) {
                     $('#failed_attended_web').html(
                         '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="W" data-loglist="' +
-                            data['pathlogs']['W'].sort().join() + '">' +
-                                data['sndrcvmsgs']['W']['failed_attended'] + '</a>'
+                        data['pathlogs']['W'].sort().join() + '">' +
+                        data['sndrcvmsgs']['W']['failed_attended'] + '</a>'
                     );
                 }
                 else {
                     $('#failed_attended_web').text(data['sndrcvmsgs']['W']['failed_attended']);
                 }
 
+                $("#table-web-pt-errors").hide();
+                $("#table-android-pt-errors").hide();
+                $("#table-ios-pt-errors").hide();
+
+                if(data['pt-internal-errors']['W'].length>0){
+                    $("#table-web-pt-errors").show();
+                    appendChilds( $("#table-web-pt-errors tbody"),data['pt-internal-errors']['W']);
+                }
+                if(data['pt-internal-errors']['A'].length>0){
+                    $("#table-android-pt-errors").show();
+                    appendChilds( $("#table-android-pt-errors tbody"),data['pt-internal-errors']['A']);
+                }
+
+                if(data['pt-internal-errors']['I'].length>0){
+                    $("#table-ios-pt-errors").show();
+                    appendChilds( $("#table-ios-pt-errors tbody"),data['pt-internal-errors']['I']);
+                }
 
 
+                function appendChilds(element,object){
+                    $(element).empty();
+                    $.each(object, function (index, val) {
+                        $(element).append(
+                            $('<tr>').
+                                append($('<td>', {text: index + 1})).
+                                append($('<td>', {text: val.date})).
+                                append($('<td>', {text: val.error_type})).
+                                append($('<td>', {text: val.service_id})).
+                                append($('<td>', {text: val.class})).
+                                append($('<td>', {text: val.file}))
+                        );
+
+                    });
+                }
 
 
                 $('strong span').addClass('animated bounceInLeft');
                 $('strong span').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
                     function () {
                         $('strong span').removeClass('animated bounceInLeft');
-                });
+                    });
                 $('#btnsubmit').text('Buscar');
                 $('#btnsubmit').removeAttr('disabled');
 

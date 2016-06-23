@@ -175,6 +175,7 @@ class LogsParser:
             dictionary['date'] = r.group("date")
             dictionary['device'] = separated_line[1].strip()
             dictionary['error_type'] = r.group('level')
+            dictionary['service_id']=separated_line[2]
 
             dictionary['class'] = separated_line[0].split(" ")[2]
             dictionary['file'] = dict['file'].split(os.sep)[-2] +\
