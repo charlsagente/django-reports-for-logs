@@ -19,6 +19,7 @@ class Statistics:
 
         counted_logs = {
             COUNTERS_ERRORS_EACH_FILE: {'W': {}, 'I': {}, 'A': {}},
+            ERRORS_INTERNAL_PT:{},
             INTERNAL_MW: 0,
             INTERNAL_MW_INT: 0,
             STRUCTURE_MW: {'W': 0, 'I': 0, 'A': 0},
@@ -37,6 +38,9 @@ class Statistics:
         dates_between = self.get_dates_between()
 
         if self.logs:
+            if ERRORS_INTERNAL_PT in self.logs:
+                counted_logs[ERRORS_INTERNAL_PT]=self.logs[ERRORS_INTERNAL_PT]
+
             if INTERNAL_MW in self.logs:
                 for key, value in self.logs[INTERNAL_MW].iteritems():
                     if key in dates_between:

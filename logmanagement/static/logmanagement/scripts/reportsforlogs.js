@@ -76,9 +76,10 @@ $(function () {
         $(this).html('<i class="fa fa-circle-o-notch fa-spin"></i> Espere..');
         $(this).attr('disabled', true);
         $('strong span').addClass('animated zoomOutRight');
-        $('strong span').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-            $('strong span').text("");
-            $('strong span').removeClass('animated zoomOutRight');
+        $('strong span').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+            function () {
+                $('strong span').text("");
+                $('strong span').removeClass('animated zoomOutRight');
         });
 
         $.ajax({
@@ -98,8 +99,9 @@ $(function () {
 
                 if (data['pathlogs']['A'].length > 0) {
                     $('#failed_attended_android').html(
-                        '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="A" data-loglist="' + data['pathlogs']['A'].sort().join() + '">' +
-                        data['sndrcvmsgs']['A']['failed_attended'] + '</a>'
+                        '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="A" data-loglist="' +
+                            data['pathlogs']['A'].sort().join() + '">' +
+                                data['sndrcvmsgs']['A']['failed_attended'] + '</a>'
                     );
                 }
                 else {
@@ -112,8 +114,9 @@ $(function () {
                 $('#structure_errors_ios').text(data['structure-mw']['I']);
                 if (data['pathlogs']['I'].length > 0) {
                     $('#failed_attended_ios').html(
-                        '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="I" data-loglist="' + data['pathlogs']['I'].sort().join() + '">' +
-                        data['sndrcvmsgs']['I']['failed_attended'] + '</a>'
+                        '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="I" data-loglist="' +
+                            data['pathlogs']['I'].sort().join() + '">' +
+                                data['sndrcvmsgs']['I']['failed_attended'] + '</a>'
                     );
                 }
                 else {
@@ -125,17 +128,23 @@ $(function () {
                 $('#structure_errors_web').text(data['structure-mw']['W']);
                 if (data['pathlogs']['W'].length > 0) {
                     $('#failed_attended_web').html(
-                        '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="W" data-loglist="' + data['pathlogs']['W'].sort().join() + '">' +
-                        data['sndrcvmsgs']['W']['failed_attended'] + '</a>'
+                        '<a href="#" data-toggle="modal" data-target="#myModal" data-device-type="W" data-loglist="' +
+                            data['pathlogs']['W'].sort().join() + '">' +
+                                data['sndrcvmsgs']['W']['failed_attended'] + '</a>'
                     );
                 }
                 else {
                     $('#failed_attended_web').text(data['sndrcvmsgs']['W']['failed_attended']);
                 }
 
+
+
+
+
                 $('strong span').addClass('animated bounceInLeft');
-                $('strong span').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                    $('strong span').removeClass('animated bounceInLeft');
+                $('strong span').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+                    function () {
+                        $('strong span').removeClass('animated bounceInLeft');
                 });
                 $('#btnsubmit').text('Buscar');
                 $('#btnsubmit').removeAttr('disabled');

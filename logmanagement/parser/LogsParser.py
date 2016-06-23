@@ -2,14 +2,13 @@
 
 __author__ = 'charls'
 import os
-import re
 import copy
 
 from InputsHandler import InputsHandler
 from Logs import Logs
-from LogsDictionary import *
 from logmanagement.models import DateFile
 from ConstantsRE import *
+
 
 class LogsParser:
     def __init__(self):
@@ -27,7 +26,7 @@ class LogsParser:
         """
         try:
             mw_backup_folder_path = os.path.join(self.__inputData.path_for_filesystem,
-                                                 folders['middleware_backups_folder'])
+                                                 MAIN_FOLDERS['middleware_backups_folder'])
 
             log_files = DateFile.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date) \
                 .order_by('archivo').values('archivo').distinct()
@@ -43,7 +42,7 @@ class LogsParser:
             if log_files not in already_parsed_files:
                 self.match_and_dispatch_backup_files(mw_backup_folder_path, log_files)
 
-        mw_folder_path = os.path.join(self.__inputData.path_for_filesystem, folders['middleware_folder'])
+        mw_folder_path = os.path.join(self.__inputData.path_for_filesystem, MAIN_FOLDERS['middleware_folder'])
         for log_files in os.listdir(mw_folder_path):
             self.match_and_dispatch_backup_files(mw_folder_path, log_files)
 
@@ -56,48 +55,39 @@ class LogsParser:
         :param log_file_name:
         :return: True si se encuentra un archivo con una expresion regular, false si no
         """
-        for regex in regex_internal_errors_mw_int:
+        for regex in REGEX_INTERNAL_ERRORS_MW_INT:
             if regex.search(log_file_name):
-                self.parse_errors(os.path.join(folder_path, log_file_name), INTERNAL_MW_INT)
+                # self.parse_errors(os.path.join(folder_path, log_file_name), INTERNAL_MW_INT)
                 self.iterate_file_continuous_lines(os.path.join(folder_path, log_file_name),
-                                                   logs['log_level'][0],
-                                                   returning_function=self.parse_int_mw_errors)
+                                                   LOG_LEVELS['log_level'][0:4],
+                                                   INTERNAL_MW_INT, returning_function=self.parse_int_mw_errors)
                 return True
 
-        for regex in regex_errors_mw_int:
+        for regex in REGEX_ERRORS_MW_INT:
             if regex.search(log_file_name):
-                self.parse_errors(os.path.join(folder_path, log_file_name), INTERNAL_MW)
+                # self.parse_errors(os.path.join(folder_path, log_file_name), INTERNAL_MW)
+                self.iterate_file_continuous_lines(os.path.join(folder_path, log_file_name),
+                                                   LOG_LEVELS['log_level'][0:4],
+                                                   INTERNAL_MW, returning_function=self.parse_int_mw_errors)
                 return True
 
-        for regex in regex_structure_errors_mw_int:
+        for regex in REGEX_STRUCTURE_ERRORS_MW_INT:
             if regex.search(log_file_name):
                 self.iterate_file_continuous_lines(os.path.join(folder_path, log_file_name),
-                                                   logs['log_level'][1],
+                                                   LOG_LEVELS['log_level'][1],
                                                    returning_function=self.parse_and_count_complete_line)
                 return True
 
-        for regex in regex_sndrcv_msgs:
+        for regex in REGEX_SNDRCV_MSGS:
             if regex.search(log_file_name):
                 self.iterate_file_continuous_lines(os.path.join(folder_path, log_file_name),
-                                                   logs['log_level'][6],
+                                                   LOG_LEVELS['log_level'][6],
                                                    returning_function=self.parse_sndrcv_complete_line)
                 return True
 
         return False
 
-    def parse_errors(self, file, log_type):
-
-        with open(file, "r") as f:
-            for x in f:
-                x = x.rstrip()
-                if not x: continue
-                r = re.match(regex_log_level_timestamp, x.strip())
-                if r and r.group('level') in logs['log_level'][0:4]:
-                    print r.group('level'), r.group('date'), r.group('time')
-                    self.in_memory_logs.add(log_type, r.group('date'), file.split(os.sep)[-1])
-                    # self.__inputData.already_parsed(file.split(os.sep)[-1])
-
-    def iterate_file_continuous_lines(self, file, log_level, returning_function):
+    def iterate_file_continuous_lines(self, file, log_level, *args, **kwargs):
         """
 
         :param file:
@@ -106,37 +96,46 @@ class LogsParser:
         continuous_line = False
         temp_line = ""
         line_number = 0
+        temp_line_number = 0
         with open(file, "r") as f:
             for x in f:
                 line_number += 1
+
                 x = x.rstrip()
                 if not x: continue
-                r = re.match(regex_log_level_timestamp, x.strip())
-                if r and r.group('level') == log_level:
+                r = re.match(REGEX_LOG_LEVEL_TIMESTAMP, x.strip())
+                if r and r.group('level') in log_level:
                     if continuous_line:
                         continuous_line = False
-                        returning_function({'line': temp_line, 'file': file, 'line_number': line_number,
-                                            'log_level':log_level})
+                        kwargs['returning_function']({'line': temp_line, 'file': file, 'line_number': temp_line_number},
+                                                     *args)
                     if len(x.split('|')) >= 8:
                         continuous_line = False
-                        returning_function({'line': x.strip(), 'file': file, 'line_number': line_number,
-                                            'log_level':log_level})
+                        kwargs['returning_function']({'line': x.strip(), 'file': file, 'line_number': line_number},
+                                                     *args)
                     else:
                         continuous_line = True
                         temp_line = x
-                elif (continuous_line):
-                    temp_line += " " + x
-                else:
-                    pass
+                        temp_line_number = line_number
 
-    def parse_sndrcv_complete_line(self, dict):
+                elif continuous_line:
+                    temp_line += " " + x
+
+        try:
+            if not x:
+                kwargs['returning_function']({'line': temp_line, 'file': file, 'line_number': line_number,
+                                              'log_level': log_level}, *args)
+        except UnboundLocalError as ex:
+            print ex
+
+    def parse_sndrcv_complete_line(self, dict, *args):
         """
 
         :param line:
         :return:
         """
         separated_line = dict['line'].split('|')
-        r = re.match(regex_log_level_timestamp, separated_line[0].strip())
+        r = re.match(REGEX_LOG_LEVEL_TIMESTAMP, separated_line[0].strip())
         date = r.group("date")
 
         device_type = separated_line[1].strip()
@@ -149,31 +148,36 @@ class LogsParser:
             pass
 
         if snd_or_rcv in ['SNDSS', 'RCVSS']:
-            if re.match(regex_address_response, address_response):
+            if re.match(REGEX_ADDRESS_RESPONSE, address_response):
                 self.in_memory_logs.addRcvSnd(date, device_type, snd_or_rcv, address_response, execution_time,
                                               dict['file'],
                                               dict['line_number'])
             else:
                 pass
 
-    def parse_and_count_complete_line(self, dict):
+    def parse_and_count_complete_line(self, dict, *args):
         separated_line = dict['line'].split('|')
-        r = re.match(regex_log_level_timestamp, separated_line[0].strip())
+        r = re.match(REGEX_LOG_LEVEL_TIMESTAMP, separated_line[0].strip())
         date = r.group("date")
         device_type = separated_line[1].strip()
 
         self.in_memory_logs.add_structure_counter(r.group('level'), device_type, date)
 
+    def parse_int_mw_errors(self, dict, *args):
+        separated_line = dict['line'].split('|')
+        r = re.match(REGEX_LOG_LEVEL_TIMESTAMP, separated_line[0].strip())
+        if r and r.group('level') in LOG_LEVELS['log_level'][0:4]:
+            print r.group('level'), r.group('date'), r.group('time')
+            self.in_memory_logs.add(args[0], r.group('date'), dict['file'].split(os.sep)[-1])
 
-    def parse_int_mw_errors(self,dict):
-        if len(dict['line'].split('|'))>=8:
-            separated_line = dict['line'].split('|')
-            device_type = separated_line[1].strip()
-            r = re.match(regex_log_level_timestamp, separated_line[0].strip())
-            date = r.group("date")
+        if len(dict['line'].split('|')) >= 8:
+            dictionary = {}
+            dictionary['date'] = r.group("date")
+            dictionary['device'] = separated_line[1].strip()
+            dictionary['error_type'] = r.group('level')
 
+            dictionary['class'] = separated_line[0].split(" ")[2]
+            dictionary['file'] = dict['file'].split(os.sep)[-2] +\
+                            os.sep + dict['file'].split(os.sep)[-1]
 
-            if r and r.group('level') in logs['log_level'][0:4]:
-                print r.group('level'), r.group('date'), r.group('time')
-                self.in_memory_logs.add(log_type, r.group('date'), file.split(os.sep)[-1])
-
+            self.in_memory_logs.add_mw_pt_internal_errors(dictionary)

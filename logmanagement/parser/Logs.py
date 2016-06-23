@@ -10,11 +10,11 @@ class Logs:
             INTERNAL_MW_INT: {},
             INTERNAL_MW: {},
             STRUCTURE_MW: {'W': {}, 'I': {}, 'A': {}},
-            SNDRCVMSG: {'W': {}, 'I': {}, 'A': {}}
+            SNDRCVMSG: {'W': {}, 'I': {}, 'A': {}},
+            ERRORS_INTERNAL_PT: {'W': [], 'I': [], 'A': []}
 
         }
         self.__addresses = set()
-        self.DynamoDb = DynamoBD()
 
     def add(self, level, date, file_name):
         if date in self.LogData[level]:
@@ -23,6 +23,8 @@ class Logs:
             self.LogData[level][date] = 1
 
 
+    def add_mw_pt_internal_errors(self,dict):
+        self.LogData[ERRORS_INTERNAL_PT][dict['device']].append(dict)
 
 
     def add_structure_counter(self,level,device,date):
