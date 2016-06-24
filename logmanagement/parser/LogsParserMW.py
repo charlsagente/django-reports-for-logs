@@ -8,12 +8,16 @@ from InputsHandler import InputsHandler
 from Logs import Logs
 from logmanagement.models import DateFile
 from ConstantsRE import *
+from LogsParserBase import LogsParserBase
 
 
-class LogsParser:
+class LogsParserMW(LogsParserBase):
     def __init__(self):
         self.__inputData = InputsHandler()
         self.in_memory_logs = Logs()
+
+    def iterate_file_continuous_lines(self, file, log_level, *args, **kwargs):
+        LogsParserBase.iterate_file_continuous_lines(self, file, log_level, *args, **kwargs)
 
     def get_Inputs_Handler(self):
         return self.__inputData
@@ -87,46 +91,6 @@ class LogsParser:
 
         return False
 
-    def iterate_file_continuous_lines(self, file, log_level, *args, **kwargs):
-        """
-
-        :param file:
-        :return:
-        """
-        continuous_line = False
-        temp_line = ""
-        line_number = 0
-        temp_line_number = 0
-        with open(file, "r") as f:
-            for x in f:
-                line_number += 1
-
-                x = x.rstrip()
-                if not x: continue
-                r = re.match(REGEX_LOG_LEVEL_TIMESTAMP, x.strip())
-                if r and r.group('level') in log_level:
-                    if continuous_line:
-                        continuous_line = False
-                        kwargs['returning_function']({'line': temp_line, 'file': file, 'line_number': temp_line_number},
-                                                     *args)
-                    if len(x.split('|')) >= 8:
-                        continuous_line = False
-                        kwargs['returning_function']({'line': x.strip(), 'file': file, 'line_number': line_number},
-                                                     *args)
-                    else:
-                        continuous_line = True
-                        temp_line = x
-                        temp_line_number = line_number
-
-                elif continuous_line:
-                    temp_line += " " + x
-
-        try:
-            if not x:
-                kwargs['returning_function']({'line': temp_line, 'file': file, 'line_number': line_number,
-                                              'log_level': log_level}, *args)
-        except UnboundLocalError as ex:
-            print ex
 
     def parse_sndrcv_complete_line(self, dict, *args):
         """

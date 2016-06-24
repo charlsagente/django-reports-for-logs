@@ -1,5 +1,5 @@
 from django.test import TestCase
-from parser.LogsParser import LogsParser
+from parser.LogsParserMW import LogsParserMW
 from parser.Statistics import Statistics
 from models import DateFile
 import datetime

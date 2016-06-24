@@ -2,7 +2,7 @@ __author__ = 'charls'
 from datetime import date, timedelta
 import os
 
-from LogsParser import LogsParser
+from LogsParserMW import LogsParserMW
 from LogsDictionary import *
 from logmanagement.models import DateFile
 
@@ -11,7 +11,7 @@ class Statistics:
     def __init__(self, start_date, end_date):
         self.start_date = start_date
         self.end_date = end_date
-        self.parser = LogsParser()
+        self.parser = LogsParserMW()
         self.logs = self.parser.parse_backup_iteration(self.start_date, self.end_date)
         self.index_files()
 
