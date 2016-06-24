@@ -15,6 +15,9 @@ def index(request):
 
     return render(request, 'logmanagement/index.html')
 
+def tomcat_logs(request):
+    return render(request, 'logmanagement/logsfortomcat.html')
+
 def vista_1(request,start_date,end_date):
 
     stats=Statistics(start_date,end_date)
