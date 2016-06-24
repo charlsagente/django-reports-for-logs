@@ -13,10 +13,10 @@ from parser.InputsHandler import InputsHandler
 
 def index(request):
 
-    return render(request, 'logmanagement/index.html')
+    return render(request, 'logmanagement/layout.html')
 
 def tomcat_logs(request):
-    return render(request, 'logmanagement/logsfortomcat.html')
+    return render(request, 'logmanagement/layout.html')
 
 def vista_1(request,start_date,end_date):
 

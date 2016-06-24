@@ -16,6 +16,11 @@ body{
 
 }
 
+.table td {
+
+    text-align: justify;
+}
+
 tbody td {
 
     vertical-align: middle !important;
