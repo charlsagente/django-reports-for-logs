@@ -27,6 +27,8 @@
                 {% include "logmanagement/home.html" %}
             {% elif  request.path == "/logs/tomcat" %}
                 {% include "logmanagement/logsfortomcat.html" %}
+            {% elif  request.path == "/logs/rest" %}
+                {% include "logmanagement/rest.html" %}
             {% endif %}
         </div>
 
@@ -37,7 +39,9 @@
 {% if request.path == "/logs/" %}
     <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-mw-logs.js" %} "></script>
 {% elif  request.path == "/logs/tomcat" %}
-    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-mw-logs.js" %} "></script>
+    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-tomcat.js" %} "></script>
+{% elif  request.path == "/logs/rest" %}
+    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-rest.js" %} "></script>
 {% endif %}
 
 
