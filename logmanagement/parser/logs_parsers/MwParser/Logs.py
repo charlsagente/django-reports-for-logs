@@ -1,6 +1,6 @@
 __author__ = 'charls'
-from LogsDictionary import *
-from DynamoDB import DynamoBD
+from logmanagement.parser.LogsDictionary import *
+from logmanagement.parser.DynamoDB import DynamoBD
 import os
 
 

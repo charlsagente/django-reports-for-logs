@@ -53,7 +53,7 @@ $(function () {
                 ).append(
                     $('<td>', {
                             html: '<strong>' + ctr_files.line_counters + '</strong>',
-                            align: 'center'
+                            class: 'cell_align'
                         }
                     )
                 ).append(

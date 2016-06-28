@@ -1,9 +1,6 @@
-from django.test import TestCase
-from parser.LogsParserMW import LogsParserMW
-from parser.Statistics import Statistics
-from models import DateFile
-import datetime
 import re
+
+from django.test import TestCase
 
 
 class TestPath(TestCase):

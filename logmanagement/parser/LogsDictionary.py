@@ -7,6 +7,7 @@ SNDRCVMSG = 'sndrcvmsgs'
 PATH_LOG_ERRORS='pathlogs'
 COUNTERS_ERRORS_EACH_FILE='counter_errors_each_file'
 ERRORS_INTERNAL_PT='pt-internal-errors'
+TOMCAT_LOGS='tomcat_logs'
 
 FILES_DICTIONARY = {
     INTERNAL_MW_INT: ['Integrator-Internal-SocieChat',
@@ -19,10 +20,12 @@ FILES_DICTIONARY = {
 
 MAIN_FOLDERS = {
     'middleware_folder': 'mw',
-    'middleware_backups_folder': 'mwbkup'
+    'middleware_backups_folder': 'mwbkup',
+    'tomcat_folder':'tomcat'
 }
 
 LOG_LEVELS = {
     'log_level': ['INTERNAL', 'STRUCTURE', 'LOSTMSG', 'ERROR', 'WARN', 'FUNCTIONAL', 'SNDRCVMSG', 'INFO', 'DEBUG',
-                  'HEALTH']
+                  'HEALTH'],
+    'tomcat_levels': ['WARN','ERROR','FATAL','SEVERE']
 }

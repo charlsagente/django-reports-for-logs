@@ -21,6 +21,10 @@ body{
     text-align: justify;
 }
 
+.cell_align{
+    text-align: center;
+}
+
 tbody td {
 
     vertical-align: middle !important;

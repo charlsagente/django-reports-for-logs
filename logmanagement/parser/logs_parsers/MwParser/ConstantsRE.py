@@ -1,6 +1,6 @@
 __author__ = 'charls'
 import re
-from LogsDictionary import *
+from logmanagement.parser.LogsDictionary import *
 
 REGEX_INTERNAL_ERRORS_MW_INT = [re.compile(p) for p in FILES_DICTIONARY[INTERNAL_MW_INT]]
 REGEX_ERRORS_MW_INT = [re.compile(p) for p in FILES_DICTIONARY[INTERNAL_MW]]

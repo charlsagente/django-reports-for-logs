@@ -4,11 +4,11 @@ __author__ = 'charls'
 import os
 import copy
 
-from InputsHandler import InputsHandler
-from Logs import Logs
+from logmanagement.parser.InputsHandler import InputsHandler
+from logmanagement.parser.logs_parsers.MwParser.Logs import Logs
 from logmanagement.models import DateFile
-from ConstantsRE import *
-from LogsParserBase import LogsParserBase
+from logmanagement.parser.logs_parsers.MwParser.ConstantsRE import *
+from logmanagement.parser.logs_parsers.LogsParserBase import LogsParserBase
 
 
 class LogsParserMW(LogsParserBase):
@@ -22,9 +22,9 @@ class LogsParserMW(LogsParserBase):
     def get_Inputs_Handler(self):
         return self.__inputData
 
-    def parse_backup_iteration(self, start_date, end_date):
+    def folders_iteration(self, start_date, end_date):
         """
-        Este método se debe invocar en la clase Statistics para inicializar todo el proceso.
+        Este método se debe invocar en la clase MwStatistics para inicializar todo el proceso.
         :param subfolder: Se envía el nombre de la subcarpeta en la que están los .log
         :return: Una clase diccionario con los datos parseados.
         """

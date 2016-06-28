@@ -2,17 +2,17 @@ __author__ = 'charls'
 from datetime import date, timedelta
 import os
 
-from LogsParserMW import LogsParserMW
-from LogsDictionary import *
+from logmanagement.parser.logs_parsers.MwParser.LogsParserMW import LogsParserMW
+from logmanagement.parser.LogsDictionary import *
 from logmanagement.models import DateFile
 
 
-class Statistics:
+class MwStatistics:
     def __init__(self, start_date, end_date):
         self.start_date = start_date
         self.end_date = end_date
         self.parser = LogsParserMW()
-        self.logs = self.parser.parse_backup_iteration(self.start_date, self.end_date)
+        self.logs = self.parser.folders_iteration(self.start_date, self.end_date)
         self.index_files()
 
     def count_logs_by_log_level(self):
@@ -117,7 +117,7 @@ class Statistics:
                                 fecha=values['date'],
                                 archivo=values['file'].split(os.sep)[-1]).save()
                         except Exception as ex:
-                            print "Statistics.index_files ", ex
-                            self.parser.get_Inputs_Handler().log("Statistics.index_files " + ex.message)
+                            print "MwStatistics.index_files ", ex
+                            self.parser.get_Inputs_Handler().log("MwStatistics.index_files " + ex.message)
                         finally:
                             files.add(values['date'] + "-" + values['file'].split(os.sep)[-1])
