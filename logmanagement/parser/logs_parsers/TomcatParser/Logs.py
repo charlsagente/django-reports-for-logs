@@ -2,11 +2,13 @@
 
 __author__ = 'charls'
 from logmanagement.parser.LogsDictionary import TOMCAT_LOGS,LOG_LEVELS
+import os
 
 class Logs:
     def __init__(self):
         self.LogData = {TOMCAT_LOGS: {},
-                        'files': {}}
+                        'files': {},
+                        'tomcat':{}}
         for log in LOG_LEVELS['tomcat_levels']:
             self.LogData[TOMCAT_LOGS][log] = {}
 
@@ -27,11 +29,20 @@ class Logs:
             self.LogData['files'][log_level] = {}
         if date not in self.LogData['files'][log_level]:
             self.LogData['files'][log_level][date] = {}
-
-        if args[0] not in self.LogData['files'][log_level][date]:
-            self.LogData['files'][log_level][date][args[0]]=[]
-            self.LogData['files'][log_level][date][args[0]].append(args[1])
+        semipath = args[2].split(os.sep)[-2]+os.sep+args[0]
+        if semipath not in self.LogData['files'][log_level][date]:
+            self.LogData['files'][log_level][date][semipath]=[]
+            self.LogData['files'][log_level][date][semipath].append(args[1])
         else:
-            self.LogData['files'][log_level][date][args[0]].append(args[1])
+            self.LogData['files'][log_level][date][semipath].append(args[1])
 
+    def add_counted_errors_for_tomcat(self, log_level, *args):
+        semi_path=args[2].split(os.sep)[-2]+os.sep+args[0]
+        if semi_path not in self.LogData['tomcat']:
+            self.LogData['tomcat'][semi_path] = {}
+        if log_level in self.LogData['tomcat'][semi_path]:
+            self.LogData['tomcat'][semi_path][log_level].append(args[1])
+        else:
+            self.LogData['tomcat'][semi_path][log_level] = []
+            self.LogData['tomcat'][semi_path][log_level].append(args[1])
 

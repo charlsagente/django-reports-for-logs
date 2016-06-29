@@ -36,3 +36,5 @@ class LogsParserTomcat(LogsParserBase):
         r = re.match(REGEX_TOMCAT_TIMESTAMP, line)
         if r:
             self.in_memory_logs.add_error_log(log_level,r.group("date"),*args)
+        else:
+            self.in_memory_logs.add_counted_errors_for_tomcat(log_level,*args)

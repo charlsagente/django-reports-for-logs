@@ -4,6 +4,7 @@
 $(function () {
 
     var global_logs_values;
+    var global_tomcat_values;
 
     $('#datetimepicker6').datetimepicker({
         format: 'YYYY-MM-DD'
@@ -24,28 +25,32 @@ $(function () {
     $('#myModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var log_level = button.data('log_level') // Extract info from data-* attributes
-
-
-
         var modal = $(this);
 
-
         $(modal.find('.modal-body table tbody')).empty();
+        var files = {};
+        for (var date in global_logs_values[log_level]) {
+            for (var file in global_logs_values[log_level][date]) {
+                if (files.hasOwnProperty(file))
+                    files[file] = files[file].concat(global_logs_values[log_level][date][file]);
+                else
+                    files[file] = global_logs_values[log_level][date][file];
+            }
+        }
 
-        $.each(global_logs_values[log_level], function (index, val) {
-
+        for (var val in files) {
             modal.find('.modal-body table tbody').append(
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
                             href: val,
-                            target: "_blank",
-                            text: val
+                            text: val,
+                            target: "_blank"
                         })
                     )
                 ).append(
                     $('<td>', {
-                            html: '<strong>' + ctr_files.line_counters + '</strong>',
+                            text: files[val].length,
                             align: 'center'
                         }
                     )
@@ -54,63 +59,109 @@ $(function () {
                         $('<textarea>', {
                             class: "form-control",
                             rows: "3",
-                            text: ctr_files.lines.sort().join(", ")
+                            text: files[val].join(", ")
                         })
                     )
                 )
             );
-
-
-        });
-
-
+        }
     });
 
+    $('#tomcatModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var log_level = button.data('log_level') // Extract info from data-* attributes
+        var modal = $(this);
+        $(modal.find('.modal-body table tbody')).empty();
+
+        for (var file in global_tomcat_values) {
+            var arry = global_tomcat_values[file][log_level]
+            modal.find('.modal-body table tbody').append(
+                $('<tr>').append(
+                    $('<td>').append(
+                        $('<a>', {
+                            href: file,
+                            text: file,
+                            target: "_blank"
+                        })
+                    )
+                ).append(
+                    $('<td>', {
+                            text: global_tomcat_values[file][log_level].length,
+                            align: 'center'
+                        }
+                    )
+                ).append(
+                    $('<td>').append(
+                        $('<textarea>', {
+                            class: "form-control",
+                            rows: "3",
+                            text: global_tomcat_values[file][log_level].join(", ")
+                        })
+                    )
+                )
+            );
+        }
+    });
 
     $('#btnsubmit').on('click', function (e) {
         $(this).html('<i class="fa fa-circle-o-notch fa-spin"></i> Espere..');
         $(this).attr('disabled', true);
-        $('table').addClass('animated zoomOutRight');
-        $('table').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
-            function () {
-                $('strong span').text("");
-                $('table').removeClass('animated zoomOutRight');
-            });
 
         $.ajax({
             type: "GET",
-            url: "tomcat/"+$("#start_date").val() + "/" + $("#end_date").val(),
+            url: "tomcat/" + $("#start_date").val() + "/" + $("#end_date").val(),
 
             success: function (data) {
 
                 console.log(data);
+                global_logs_values = data.files;
+                global_tomcat_values = data.tomcat;
 
-                global_logs_values=data.files;
                 $('table thead tr:nth-child(2)').empty();
                 $('table tbody tr').empty();
 
+
                 for (var log_level in data.tomcat_logs) {
-                    $('table thead tr:nth-child(2)').append(
-                        $('<th>',{
-                            text:log_level
+                    $('#table_errors_catalina thead tr:nth-child(2)').append(
+                        $('<th>', {
+                            text: log_level
                         })
                     )
-                }
-                for (var log_level in data.tomcat_logs) {
-                    var column_cter=0;
-                    for(var date in data.tomcat_logs[log_level]){
-                        column_cter+=text=data.tomcat_logs[log_level][date]
+                    var column_cter = 0;
+                    for (var date in data.tomcat_logs[log_level]) {
+                        column_cter += text = data.tomcat_logs[log_level][date]
                     }
-                    $('table tbody tr').append(
-                        $('<td>').append(column_cter > 0 ? $('<a>',{
-                            href:"#",
-                            "data-toggle":"modal", "data-target":"#myModal", "log_level":log_level,
-                                text:column_cter
-                        }): 0
+                    $('#table_errors_catalina tbody tr').append(
+                        $('<td>').append(column_cter > 0 ? $('<a>', {
+                                href: "#",
+                                "data-toggle": "modal", "data-target": "#myModal", "data-log_level": log_level,
+                                text: column_cter
+                            }) : 0
                         )
                     )
 
-                    //console.log(key, yourobject[key]);
+                }
+
+                for (var file_name in data.tomcat) {
+                    var column_cter = 0;
+
+                    for (var log_level in data.tomcat[file_name]) {
+                        $('#table_errors_tomcat thead tr:nth-child(2)').append(
+                            $('<th>', {
+                                text: log_level
+                            })
+                        )
+                        column_cter += data.tomcat[file_name][log_level].length
+                    }
+                    $('#table_errors_tomcat tbody tr').append(
+                        $('<td>').append(column_cter > 0 ? $('<a>', {
+                                href: "#",
+                                "data-toggle": "modal", "data-target": "#tomcatModal", "data-log_level": log_level,
+                                text: column_cter
+                            }) : 0
+                        )
+                    )
+
                 }
 
 

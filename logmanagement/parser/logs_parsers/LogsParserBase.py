@@ -65,5 +65,5 @@ class LogsParserBase:
                 for log_level in REGEX_TOMCAT_LOG_LEVELS:
                     r = log_level.search(x.strip())
                     if r:
-                        kwargs['returning_function'](x.strip(),r.group('log_level'),args[0],line_number)
+                        kwargs['returning_function'](x.strip(),r.group('log_level'),args[0],line_number,file)
 
