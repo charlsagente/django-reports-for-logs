@@ -1,33 +1,10 @@
 {% load staticfiles %}
 {% load get_dates %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reportes de Logs</title>
-
-<script type="text/javascript" src="{% static "logmanagement/scripts/jquery-1.12.4.min.js" %}"></script>
-<script type="text/javascript" src="{% static "logmanagement/scripts/moment.min.js" %}"></script>
-<script type="text/javascript" src="{% static "logmanagement/scripts/bootstrap/js/bootstrap.min.js" %}"></script>
-<script type="text/javascript"
-        src="{% static "logmanagement/scripts/bootstrap/js/bootstrap-datetimepicker.min.js" %}"></script>
-
-<link rel="stylesheet" href="{% static "logmanagement/scripts/bootstrap/css/bootstrap.min.css" %}"/>
-<link rel="stylesheet" href="{% static "logmanagement/scripts/bootstrap/css/bootstrap-datetimepicker.min.css" %}"/>
-<link rel="stylesheet" href="{% static "logmanagement/scripts/font-awesome-4.6.3/css/font-awesome.min.css" %}"/>
-<link rel="stylesheet" href="{% static "logmanagement/css/customize.css" %}"/>
-<link rel="stylesheet" type="text/css"
-      href="https://fonts.googleapis.com/css?family=Roboto+Mono&subset=cyrillic">
-
-<link rel="stylesheet" type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
-</head>
-<body>
 
 <div class="well cal_pickers">
     <div class="row">
         <div class="col-md-12">
-            <h4 align="center">Monitoreo de integrador  </h4>
+            <h4 align="center">Monitoreo de integrador </h4>
             <h5 align="center"> {% current_time "%Y-%m-%d " %}</h5>
 
         </div>
@@ -51,7 +28,7 @@
             <div class="form-group">
                 Fecha de Fin:
                 <div class='input-group date' id='datetimepicker7'>
-                     <input type='text' class="form-control" id="end_date"/>
+                    <input type='text' class="form-control" id="end_date"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -69,7 +46,7 @@
 
 
 <div class="page-header">
-    <h2><span class="label label-default">Vista 1</span></h2>
+    <h3><span class="label label-default">Vista 1</span></h3>
 </div>
 
 
@@ -79,7 +56,7 @@
             <div class="row">
                 <div class="col-md-6">
                     Numero de errores internos MW: <strong><span id="internal_errors_mw"></span></strong>
-                    </div>
+                </div>
                 <div class="col-md-6">
                     Numero de errores MW: <strong><span id="errors_mw"></span></strong>
                 </div>
@@ -98,7 +75,8 @@
                                 <thead>
                                 <tr>
                                     <th colspan="2">
-                                        <i class="fa fa-android customize-icons" aria-hidden="true"></i> Android
+                                        <i class="fa fa-android customize-icons" aria-hidden="true"></i>
+                                        Android
                                     </th>
                                 </tr>
                                 </thead>
@@ -237,9 +215,129 @@
     </div>
 </div>
 <div class="page-header">
-    <h2><span class="label label-default">Vista 2</span></h2>
+    <h3><span class="label label-default">Vista 2</span></h3>
 </div>
 
+<div class="row" id="table-web-pt-errors">
+    <div class="col-md-12">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th colspan="6">
+                                        <i class="fa fa-html5 customize-icons" aria-hidden="true"></i> Web
+                                    </th>
+
+                                </tr>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th width="5%">Fecha</th>
+                                    <th width="5%">Tipo Error</th>
+                                    <th width="15%">Id Servicio</th>
+                                    <th width="55%">Clase java</th>
+                                    <th width="15%">Archivo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row" id="table-android-pt-errors">
+    <div class="col-md-12">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th colspan="6">
+                                        <i class="fa fa-android customize-icons" aria-hidden="true"></i>
+                                        Android
+                                    </th>
+
+                                </tr>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th width="5%">Fecha</th>
+                                    <th width="5%">Tipo Error</th>
+                                    <th width="15%">Id Servicio</th>
+                                    <th width="*">Clase java</th>
+                                    <th width="15%">Archivo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row" id="table-ios-pt-errors">
+    <div class="col-md-12">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th colspan="6">
+                                        <i class="fa fa-apple customize-icons" aria-hidden="true"></i> iOS
+                                    </th>
+
+                                </tr>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th width="5%">Fecha</th>
+                                    <th width="5%">Tipo Error</th>
+                                    <th width="15%">Id Servicio</th>
+                                    <th width="*">Clase java</th>
+                                    <th width="15%">Archivo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
 <footer class="footer">
@@ -251,13 +349,35 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Archivos de logs</h4>
             </div>
             <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th width="25%">
+                            Archivo
+                        </th>
+                        <th width="10%">
+                            No. Errores
+                        </th>
+                        <th width="65%">
+                            Lineas
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
                 <div class="list-group">
 
                 </div>
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -268,7 +388,5 @@
 </div>
 
 
-<script type="text/javascript" src="{% static "logmanagement/scripts/reportsforlogs.js" %} "></script>
 
-</body>
-</html>
+

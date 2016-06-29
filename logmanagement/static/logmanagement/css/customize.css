@@ -1,17 +1,48 @@
 body{
-    font-family: 'Roboto Mono', serif;
-    margin: 3% 3% 0% 3%;
+    font-family: 'Lato', sans-serif;
 }
 
 .cal_pickers{
-    margin: 3% 27% 0% 27%;
+    margin: 1% 32% 0% 32%;
 }
 
 .customize-icons{
     font-size: 20px;
 }
 
-thead tr th{
-    vertical-align: middle;
+.modal-body thead th{
+    vertical-align: middle !important;
+    text-align: center;
+
+}
+
+.table td {
+
+    text-align: justify;
+}
+
+.cell_align{
+    text-align: center;
+}
+
+tbody td {
+
+    vertical-align: middle !important;
+}
+
+textarea{
+    text-align: justify;
+    white-space: normal;
+    overflow: auto;
+}
+
+
+
+.modal-dialog {
+    width: 90%; /* desired relative width */
+     /*left: 5%; (100%-width)/2 */
+    /* place center */
+
+    margin-left:5%;
 
 }

@@ -1,0 +1,48 @@
+{% load staticfiles %}
+{% load get_dates %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reportes de Logs</title>
+    <meta name="author" content="charls">
+    <link rel="shortcut icon" href="{% static "logmanagement/imgs/favicon.ico" %}">
+    {% include "logmanagement/css-common-dependencies.html" %}
+
+
+</head>
+<body>
+
+{% include "logmanagement/navbar.html" %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            {% include "logmanagement/sidebar.html" %}
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {% if request.path == "/logs/" %}
+                {% include "logmanagement/home.html" %}
+            {% elif  request.path == "/logs/tomcat" %}
+                {% include "logmanagement/logsfortomcat.html" %}
+            {% elif  request.path == "/logs/rest" %}
+                {% include "logmanagement/rest.html" %}
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+{% include "logmanagement/scripts-common-dependencies.html" %}
+{% if request.path == "/logs/" %}
+    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-mw-logs.js" %} "></script>
+{% elif  request.path == "/logs/tomcat" %}
+    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-tomcat.js" %} "></script>
+{% elif  request.path == "/logs/rest" %}
+    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-rest.js" %} "></script>
+{% endif %}
+
+
+</body>
