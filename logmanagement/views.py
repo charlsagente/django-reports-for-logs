@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from logmanagement.parser.logs_parsers.MwParser.MwStatistics import MwStatistics
 from logmanagement.parser.logs_parsers.TomcatParser.TomcatStatistics import TomcatStatistics
+from logmanagement.parser.logs_parsers.MwRest.MwRestStatistics import MwRestStatistics
 from parser.InputsHandler import InputsHandler
 
 def index(request):
@@ -31,6 +32,11 @@ def get_json_mw_stats(request,start_date,end_date):
 
 def get_json_tomcat_stats(request,start_date,end_date):
     stats=TomcatStatistics(start_date,end_date)
+    data=stats.count_logs_by_log_level()
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+def get_json_rest_stats(request,start_date,end_date):
+    stats = MwRestStatistics(start_date,end_date)
     data=stats.count_logs_by_log_level()
     return HttpResponse(json.dumps(data), content_type='application/json')
 

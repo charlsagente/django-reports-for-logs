@@ -13,14 +13,14 @@ from logmanagement.parser.logs_parsers.LogsParserBase import LogsParserBase
 
 class LogsParserMW(LogsParserBase):
     def __init__(self):
-        self.__inputData = InputsHandler()
+        self.inputData = InputsHandler()
         self.in_memory_logs = Logs()
 
     def iterate_file_continuous_lines(self, file, log_level, *args, **kwargs):
         LogsParserBase.iterate_file_continuous_lines(self, file, log_level, *args, **kwargs)
 
     def get_Inputs_Handler(self):
-        return self.__inputData
+        return self.inputData
 
     def folders_iteration(self, start_date, end_date):
         """
@@ -29,16 +29,16 @@ class LogsParserMW(LogsParserBase):
         :return: Una clase diccionario con los datos parseados.
         """
         try:
-            mw_backup_folder_path = os.path.join(self.__inputData.path_for_filesystem,
+            mw_backup_folder_path = os.path.join(self.inputData.path_for_filesystem,
                                                  MAIN_FOLDERS['middleware_backups_folder'])
 
             log_files = DateFile.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date) \
                 .order_by('archivo').values('archivo').distinct()
             already_parsed_files = [f.archivo for f in DateFile.objects.all().order_by('archivo')]
         except Exception as ex:
-            self.__inputData.log("Excepcion con lectura de la BD" + ex)
+            self.inputData.log("Excepcion con lectura de la BD" + ex)
 
-        self.__inputData.log("Leyendo mensajes")
+        self.inputData.log("Leyendo mensajes")
         for entry in log_files:
             self.match_and_dispatch_backup_files(mw_backup_folder_path, entry['archivo'])
 
@@ -46,7 +46,7 @@ class LogsParserMW(LogsParserBase):
             if log_files not in already_parsed_files:
                 self.match_and_dispatch_backup_files(mw_backup_folder_path, log_files)
 
-        mw_folder_path = os.path.join(self.__inputData.path_for_filesystem, MAIN_FOLDERS['middleware_folder'])
+        mw_folder_path = os.path.join(self.inputData.path_for_filesystem, MAIN_FOLDERS['middleware_folder'])
         for log_files in os.listdir(mw_folder_path):
             self.match_and_dispatch_backup_files(mw_folder_path, log_files)
 

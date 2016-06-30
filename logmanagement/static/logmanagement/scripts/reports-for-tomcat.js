@@ -109,7 +109,7 @@ $(function () {
 
         $.ajax({
             type: "GET",
-            url: "tomcat/" + $("#start_date").val() + "/" + $("#end_date").val(),
+            url:  $("#start_date").val() + "/" + $("#end_date").val(),
 
             success: function (data) {
 

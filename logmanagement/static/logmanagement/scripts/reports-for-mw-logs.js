@@ -39,7 +39,7 @@ $(function () {
             if (global_logs_values[device_type].hasOwnProperty(val))
                 ctr_files = global_logs_values[device_type][val];
             else
-                ctr_files = {'line_coounters': 0, 'lines': [0]};
+                ctr_files = {'line_counters': 0, 'lines': [0]};
 
             modal.find('.modal-body table tbody').append(
                 $('<tr>').append(
@@ -84,9 +84,11 @@ $(function () {
                 $('strong span').removeClass('animated zoomOutRight');
             });
 
+        var path_name=window.location.pathname;
+
         $.ajax({
             type: "GET",
-            url: $("#start_date").val() + "/" + $("#end_date").val(),
+            url: path_name+$("#start_date").val() + "/" + $("#end_date").val(),
 
             success: function (data) {
 

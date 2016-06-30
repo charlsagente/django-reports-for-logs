@@ -21,7 +21,9 @@ FILES_DICTIONARY = {
 MAIN_FOLDERS = {
     'middleware_folder': 'mw',
     'middleware_backups_folder': 'mwbkup',
-    'tomcat_folder':'tomcat'
+    'tomcat_folder':'tomcat',
+    'rest_folder':'mwrest',
+    'rest_folder_backup':'mwrestbkup'
 }
 
 LOG_LEVELS = {

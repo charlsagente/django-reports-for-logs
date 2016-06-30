@@ -25,9 +25,9 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             {% if request.path == "/logs/" %}
                 {% include "logmanagement/home.html" %}
-            {% elif  request.path == "/logs/tomcat" %}
+            {% elif  request.path == "/logs/tomcat/" %}
                 {% include "logmanagement/logsfortomcat.html" %}
-            {% elif  request.path == "/logs/rest" %}
+            {% elif  request.path == "/logs/rest/" %}
                 {% include "logmanagement/rest.html" %}
             {% endif %}
         </div>
@@ -38,10 +38,10 @@
 {% include "logmanagement/scripts-common-dependencies.html" %}
 {% if request.path == "/logs/" %}
     <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-mw-logs.js" %} "></script>
-{% elif  request.path == "/logs/tomcat" %}
+{% elif  request.path == "/logs/tomcat/" %}
     <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-tomcat.js" %} "></script>
-{% elif  request.path == "/logs/rest" %}
-    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-rest.js" %} "></script>
+{% elif  request.path == "/logs/rest/" %}
+    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-mw-logs.js" %} "></script>
 {% endif %}
 
 
