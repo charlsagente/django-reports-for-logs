@@ -23,7 +23,8 @@ MAIN_FOLDERS = {
     'middleware_backups_folder': 'mwbkup',
     'tomcat_folder':'tomcat',
     'rest_folder':'mwrest',
-    'rest_folder_backup':'mwrestbkup'
+    'rest_folder_backup':'mwrestbkup',
+    'elastic_search':'elasticsearch'
 }
 
 LOG_LEVELS = {

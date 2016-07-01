@@ -145,16 +145,16 @@ $(function () {
                 $("#table-android-pt-errors").hide();
                 $("#table-ios-pt-errors").hide();
 
-                if(data['pt-internal-errors']['W'].length>0){
+                if(data['pt-internal-errors']['W'] && data['pt-internal-errors']['W'].length>0){
                     $("#table-web-pt-errors").show();
                     appendChilds( $("#table-web-pt-errors tbody"),data['pt-internal-errors']['W']);
                 }
-                if(data['pt-internal-errors']['A'].length>0){
+                if(data['pt-internal-errors']['A'] && data['pt-internal-errors']['A'].length>0){
                     $("#table-android-pt-errors").show();
                     appendChilds( $("#table-android-pt-errors tbody"),data['pt-internal-errors']['A']);
                 }
 
-                if(data['pt-internal-errors']['I'].length>0){
+                if(data['pt-internal-errors']['I'] && data['pt-internal-errors']['I'].length>0){
                     $("#table-ios-pt-errors").show();
                     appendChilds( $("#table-ios-pt-errors tbody"),data['pt-internal-errors']['I']);
                 }

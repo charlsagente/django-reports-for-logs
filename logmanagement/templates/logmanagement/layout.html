@@ -29,6 +29,8 @@
                 {% include "logmanagement/logsfortomcat.html" %}
             {% elif  request.path == "/logs/rest/" %}
                 {% include "logmanagement/rest.html" %}
+            {% elif  request.path == "/logs/elastic/" %}
+                {% include "logmanagement/elasticsearch.html" %}
             {% endif %}
         </div>
 

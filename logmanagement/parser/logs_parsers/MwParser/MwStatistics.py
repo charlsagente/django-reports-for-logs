@@ -39,7 +39,13 @@ class MwStatistics:
 
         if self.logs:
             if ERRORS_INTERNAL_PT in self.logs:
-                counted_logs[ERRORS_INTERNAL_PT]=self.logs[ERRORS_INTERNAL_PT]
+                keys_to_delete=[]
+                for key, value in self.logs[INTERNAL_MW].iteritems():
+                    if key not in dates_between:
+                        keys_to_delete.append(key)
+                for key in keys_to_delete:
+                    del self.logs[INTERNAL_MW][key]
+                counted_logs[INTERNAL_MW]=self.logs[ERRORS_INTERNAL_PT]
 
             if INTERNAL_MW in self.logs:
                 for key, value in self.logs[INTERNAL_MW].iteritems():
