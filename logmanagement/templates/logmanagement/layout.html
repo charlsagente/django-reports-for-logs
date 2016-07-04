@@ -44,6 +44,8 @@
     <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-tomcat.js" %} "></script>
 {% elif  request.path == "/logs/rest/" %}
     <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-mw-logs.js" %} "></script>
+{% elif  request.path == "/logs/elastic/" %}
+    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-elastic.js" %} "></script>
 {% endif %}
 
 
