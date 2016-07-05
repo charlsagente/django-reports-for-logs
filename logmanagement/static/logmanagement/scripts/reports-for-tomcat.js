@@ -38,19 +38,20 @@ $(function () {
             }
         }
 
-        for (var val in files) {
+        Object.keys(files).sort().reduce(function (result, key) {
+
             modal.find('.modal-body table tbody').append(
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: val,
-                            text: val,
+                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+"/"+key.replace("\\","/"),
+                            text: key,
                             target: "_blank"
                         })
                     )
                 ).append(
                     $('<td>', {
-                            text: files[val].length,
+                            text: files[key].length,
                             align: 'center'
                         }
                     )
@@ -59,12 +60,15 @@ $(function () {
                         $('<textarea>', {
                             class: "form-control",
                             rows: "3",
-                            text: files[val].join(", ")
+                            text: files[key].join(", ")
                         })
                     )
                 )
             );
-        }
+            return result;
+        }, {});
+
+
     });
 
     $('#tomcatModal').on('show.bs.modal', function (event) {
@@ -79,7 +83,7 @@ $(function () {
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: file,
+                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+"/"+file.replace("\\","/"),
                             text: file,
                             target: "_blank"
                         })
