@@ -2,29 +2,24 @@
     <li {% if request.path == "/logs/" %}
         class="active"
         {% endif %}>
-            <a href="/logs">Middleware <span class="sr-only">(current)</span></a>
+            <a href="/logs">Middleware Logs <span class="sr-only">(current)</span></a>
     </li>
     <li {% if request.path == "/logs/tomcat/" %}
         class="active"
         {% endif %}>
-        <a href="/logs/tomcat">Tomcat</a></li>
+        <a href="/logs/tomcat">Tomcat Logs</a></li>
 
     <li{% if request.path == "/logs/rest/" %}
         class="active"
-    {% endif %}><a href="/logs/rest/">REST</a></li>
+    {% endif %}><a href="/logs/rest/">REST Logs</a></li>
     <li {% if request.path == "/logs/elastic/" %}
         class="active"
-    {% endif %}><a href="/logs/elastic/">ElasticSearch</a></li>
+    {% endif %}><a href="/logs/elastic/">ElasticSearch Logs</a></li>
 </ul>
 <ul class="nav nav-sidebar">
-    <li><a href="">Server Side</a></li>
-    <li><a href="">CouchBase</a></li>
-    <li><a href="">Healt PT</a></li>
-    <li><a href="">Healt SO</a></li>
-    <li><a href="">More navigation</a></li>
+    <li><a href="">Couchbase Healt</a></li>
+    <li><a href="">Elastic Search Healt</a></li>
+    <li><a href="">Tomcat Healt</a></li>
+    <li><a href="">Vertx Healt</a></li>
 </ul>
-<ul class="nav nav-sidebar">
-    <li><a href="">Nav item again</a></li>
-    <li><a href="">One more nav</a></li>
-    <li><a href="">Another nav item</a></li>
-</ul>
+
