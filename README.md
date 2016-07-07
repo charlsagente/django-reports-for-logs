@@ -13,14 +13,21 @@
 4. Con el archivo requirements.txt escribir:
  
     ``` 
-    pip install requirements.txt
+    pip install -r requirements.txt
     ```
 
 
 5. Una vez teniendo el código, entrar a la carpeta y escribir:
     
     ```
-    python manage.py runserver
+    python manage.py migrate
+    ```
+    
+
+6. Para ejecutar el servidor y que se pueda acceder desde internet, escribir:
+    
+    ```
+    python manage.py runserver 0.0.0.0:8000
     ```
     
     

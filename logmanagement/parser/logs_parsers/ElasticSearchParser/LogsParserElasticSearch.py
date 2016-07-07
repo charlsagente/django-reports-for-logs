@@ -2,7 +2,7 @@ __author__ = 'charls'
 
 from ..TomcatParser.LogsParserTomcat import LogsParserTomcat
 from logmanagement.parser.LogsDictionary import *
-from .ConstantsRE import *
+from logmanagement.parser.logs_parsers.ElasticSearchParser.ConstantsRE import *
 from logmanagement.parser.InputsHandler import InputsHandler
 from logmanagement.parser.logs_parsers.TomcatParser.Logs import Logs
 
