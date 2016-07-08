@@ -45,7 +45,7 @@ $(function () {
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: "showlog/"+val,
+                            href: "showlog/"+val+"/"+ctr_files.lines.sort().join(","),
                             target: "_blank",
                             text: val
                         })

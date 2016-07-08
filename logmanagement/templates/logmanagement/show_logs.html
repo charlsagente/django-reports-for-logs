@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load get_logs %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -10,7 +10,7 @@
 
 </head>
 <body>
-<pre><code class="line-numbers">
+<pre><code class="line-numbers"  data-highlight-lines="{% get_key 'lines' %}">
     {% get_logs %}
 </code></pre>
 

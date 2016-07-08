@@ -59,5 +59,5 @@ def get_log(request, folder,log_file):
     response['Content-Type'] = 'text/plain'
     return response
 
-def show_log(request,folder,log_file):
-    return render(request, 'logmanagement/show_logs.html',{'folder':folder,'log_file':log_file})
+def show_log(request,folder,log_file,lines):
+    return render(request, 'logmanagement/show_logs.html',{'folder':folder,'log_file':log_file,'lines':lines})

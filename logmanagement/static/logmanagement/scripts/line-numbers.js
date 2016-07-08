@@ -31,10 +31,10 @@ function addLineNumbers() {
         // Add class 'line-number'.
         classes = 'line-number';
         // Should this line be highlighted?
-        if (highlights.indexOf(n+1) > -1) {
+        if (highlights.indexOf(n) > -1) {
           classes += ' highlight-line';
         }
-          else if(content[n].match(/WARNING|WARN|ERROR|FATAL|SEVERE/g)){
+          else if(highlights.length <=0 && content[n].match(/WARNING|WARN|ERROR|FATAL|SEVERE/g)){
             classes += ' highlight-line';
         }
 

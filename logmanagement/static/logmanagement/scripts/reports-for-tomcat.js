@@ -44,7 +44,9 @@ $(function () {
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+"/showlog/"+key.replace("\\","/"),
+                            href: window.location.protocol+"//"+window.location.host+"/"+
+                            window.location.pathname.split("/")[1]+"/showlog/"+key.replace("\\","/")+"/"+
+                            files[key].sort().join(","),
                             text: key,
                             target: "_blank"
                         })
@@ -83,7 +85,9 @@ $(function () {
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+"/showlog/"+file.replace("\\","/"),
+                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+
+                            "/showlog/"+file.replace("\\","/")+"/"+
+                            global_tomcat_values[file][log_level].sort().join(","),
                             text: file,
                             target: "_blank"
                         })
