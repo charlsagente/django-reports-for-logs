@@ -45,7 +45,7 @@ $(function () {
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: val,
+                            href: "showlog/"+val,
                             target: "_blank",
                             text: val
                         })

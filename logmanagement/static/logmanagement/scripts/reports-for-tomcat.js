@@ -44,7 +44,7 @@ $(function () {
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+"/"+key.replace("\\","/"),
+                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+"/showlog/"+key.replace("\\","/"),
                             text: key,
                             target: "_blank"
                         })
@@ -83,7 +83,7 @@ $(function () {
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+"/"+file.replace("\\","/"),
+                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+"/showlog/"+file.replace("\\","/"),
                             text: file,
                             target: "_blank"
                         })

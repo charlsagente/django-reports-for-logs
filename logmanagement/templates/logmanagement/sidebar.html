@@ -1,20 +1,20 @@
 <ul class="nav nav-sidebar">
-    <li {% if request.path == "/logs/" %}
+    <li {% if request.path == "/monitoreo/" %}
         class="active"
         {% endif %}>
-            <a href="/logs">Middleware Logs <span class="sr-only">(current)</span></a>
+            <a href="/monitoreo">Middleware Logs <span class="sr-only">(current)</span></a>
     </li>
-    <li {% if request.path == "/logs/tomcat/" %}
+    <li {% if request.path == "/monitoreo/tomcat/" %}
         class="active"
         {% endif %}>
-        <a href="/logs/tomcat">Tomcat Logs</a></li>
+        <a href="/monitoreo/tomcat">Tomcat Logs</a></li>
 
-    <li{% if request.path == "/logs/rest/" %}
+    <li{% if request.path == "/monitoreo/rest/" %}
         class="active"
-    {% endif %}><a href="/logs/rest/">REST Logs</a></li>
-    <li {% if request.path == "/logs/elastic/" %}
+    {% endif %}><a href="/monitoreo/rest/">REST Logs</a></li>
+    <li {% if request.path == "/monitoreo/elastic/" %}
         class="active"
-    {% endif %}><a href="/logs/elastic/">ElasticSearch Logs</a></li>
+    {% endif %}><a href="/monitoreo/elastic/">ElasticSearch Logs</a></li>
 </ul>
 <ul class="nav nav-sidebar">
     <li><a href="">Couchbase Healt</a></li>
