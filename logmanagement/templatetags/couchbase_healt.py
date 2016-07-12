@@ -7,10 +7,10 @@ from logmanagement.parser.InputsHandler import InputsHandler
 register = template.Library()
 
 @register.simple_tag(takes_context=True)
-def get_monit_logs(context,folder):
+def get_monit_logs(context,folder,file='couchbase*-status*.txt'):
     file_handler = InputsHandler()
     file_handler.set_path_for_filesystem(subfolder="monit")
-    newest = max(glob.iglob(file_handler.path_for_filesystem+os.sep+folder+os.sep+'couchbase*-status*.txt'), key=os.path.getctime)
+    newest = max(glob.iglob(file_handler.path_for_filesystem+os.sep+folder+os.sep+file), key=os.path.getctime)
     status = parse_file(newest)
     status['node1'] = newest
     return status
@@ -31,11 +31,26 @@ def parse_file(file):
                 dict[key]={}
                 dict[key]['interface']=r.group('interface')
                 continue
+            r = re.match(r'Process\s+\'(?P<process>.+)\'', x)
+            if r:
+                if 'process' in dict:
+                    key='process1'
+                else:
+                    key='process'
+                dict[key]={}
+                dict[key]['process_name']=r.group('process')
+                continue
             r = re.match(r'Filesystem\s+\'(?P<name>.+)\'', x)
             if r:
                 key='file_system'
                 dict[key]={}
                 dict[key]['file_system_name']=r.group('name')
+                continue
+            r = re.match(r'File\s+\'(?P<name>.+)\'', x)
+            if r:
+                key='file'
+                dict[key]={}
+                dict[key]['file_name']=r.group('name')
                 continue
             r = re.match(r'Program \'couchbase_logs_size\'', x)
             if r:
@@ -48,6 +63,18 @@ def parse_file(file):
                 key='couch_data'
                 dict[key] = {}
                 dict[key]['couch_name']='couchbase_data_size'
+                continue
+            r = re.match(r'Program \'elastic_logs_size\'', x)
+            if r:
+                key='elastic_logs_size'
+                dict[key] = {}
+                dict[key]['couch_name']='elastic_logs_size'
+                continue
+            r = re.match(r'Program \'tomcat_logs_size\'', x)
+            if r:
+                key='tomcat_logs_size'
+                dict[key] = {}
+                dict[key]['tomcat_name']='tomcat_logs_size'
                 continue
             r = re.match(r'System \'(?P<system>.+)\'', x)
             if r:

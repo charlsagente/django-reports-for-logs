@@ -20,8 +20,14 @@
     <li {% if request.path == "/monitoreo/couch_healt/" %}
         class="active"
     {% endif %}><a href="/monitoreo/couch_healt/">Couchbase Healt</a></li>
-    <li><a href="">Elastic Search Healt</a></li>
-    <li><a href="">Tomcat Healt</a></li>
-    <li><a href="">Vertx Healt</a></li>
+    <li {% if request.path == "/monitoreo/elastic_healt/" %}
+        class="active"
+    {% endif %}><a href="/monitoreo/elastic_healt/">Elastic Search Healt</a></li>
+    <li {% if request.path == "/monitoreo/tomcat_healt/" %}
+        class="active"
+    {% endif %}><a href="/monitoreo/tomcat_healt/">Tomcat Healt</a></li>
+    <li {% if request.path == "/monitoreo/vertx_healt/" %}
+        class="active"
+    {% endif %}><a href="/monitoreo/vertx_healt/">Vertx Healt</a></li>
 </ul>
 

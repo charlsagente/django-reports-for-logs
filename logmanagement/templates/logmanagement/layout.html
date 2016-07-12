@@ -33,6 +33,12 @@
                 {% include "logmanagement/elasticsearch.html" %}
             {% elif  request.path == "/monitoreo/couch_healt/" %}
                 {% include "logmanagement/healt/couchbasehealt.html" %}
+            {% elif  request.path == "/monitoreo/elastic_healt/" %}
+                {% include "logmanagement/healt/elastichealt.html" %}
+            {% elif  request.path == "/monitoreo/tomcat_healt/" %}
+                {% include "logmanagement/healt/tomcathealt.html" %}
+            {% elif  request.path == "/monitoreo/vertx_healt/" %}
+                {% include "logmanagement/healt/vertxhealt.html" %}
 
             {% endif %}
         </div>

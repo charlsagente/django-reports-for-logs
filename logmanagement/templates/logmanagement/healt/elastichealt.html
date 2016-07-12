@@ -1,0 +1,207 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "logmanagement/css/healts.css" %}">
+
+{% load couchbase_healt %}
+<div class="jumbotron">
+    <h2>Monit Service Manager Elastic Search Nodo 1</h2>
+
+    <p>Se muestran los logs de monit el servidor elasticsearch en el nodo 1</p>
+</div>
+{% get_monit_logs "elastic1" "elastic*-status*.txt" as logs %}
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>System</th>
+            <th>Status</th>
+            <th>Load</th>
+            <th>CPU</th>
+            <th>Memory</th>
+            <th>Swap</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.system.system_name }}</td>
+            <td>
+                <h4><span {% if "Running" in logs.system.status %}
+                    class="label label-success"
+                {% else %}
+                    class="label label-warning"
+                {% endif %}>
+                    {{ logs.system.status }}</span></h4></td>
+            <td>{{ logs.system.load_average }}</td>
+            <td>{{ logs.system.cpu }}</td>
+            <td>{{ logs.system.memory_usage }}</td>
+            <td>{{ logs.system.swap_usage }}</td>
+        </tr>
+
+        </tbody>
+        <thead>
+        <tr>
+            <th>Program</th>
+            <th>Status</th>
+            <th colspan="2">Output</th>
+            <th>Last Started</th>
+            <th>Exit value</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <td>{{ logs.elastic_logs_size.couch_name }}</td>
+            <td><h4><span {% if "ok" in logs.elastic_logs_size.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.elastic_logs_size.status }}</span></h4></td>
+            <td colspan="2">{{ logs.elastic_logs_size.last_output }}</td>
+            <td>{{ logs.elastic_logs_size.data_collected }}</td>
+            <td>{{ logs.elastic_logs_size.last_exit_value }}</td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Filesystem</th>
+            <th>Status</th>
+            <th colspan="2">Free Space</th>
+            <th colspan="2">Free Inodes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.file_system.file_system_name }}</td>
+            <td><h4><span {% if "Accessible" in logs.file_system.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.file_system.status }}</span></h4></td>
+            <td colspan="2">{{ logs.file_system.space_free_total }}</td>
+            <td colspan="2">{{ logs.file_system.inodes_free }}</td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Net</th>
+            <th>Status</th>
+            <th colspan="2">Upload</th>
+            <th colspan="2">Download</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.net.interface }}</td>
+            <td><h4><span {% if "UP" in logs.net.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.net.status }}</span></h4></td>
+            <td colspan="2">{{ logs.net.upload_bytes }}</td>
+            <td colspan="2">{{ logs.net.download_bytes }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="jumbotron">
+    <h2>Monit Service Manager Elastic Search Nodo 2</h2>
+
+    <p>Se muestran los logs de monit el servidor elasticsearch en el nodo 2</p>
+</div>
+{% get_monit_logs "elastic2" "elastic*-status*.txt" as logs %}
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>System</th>
+            <th>Status</th>
+            <th>Load</th>
+            <th>CPU</th>
+            <th>Memory</th>
+            <th>Swap</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.system.system_name }}</td>
+            <td>
+                <h4><span {% if "Running" in logs.system.status %}
+                    class="label label-success"
+                {% else %}
+                    class="label label-warning"
+                {% endif %}>
+                    {{ logs.system.status }}</span></h4></td>
+            <td>{{ logs.system.load_average }}</td>
+            <td>{{ logs.system.cpu }}</td>
+            <td>{{ logs.system.memory_usage }}</td>
+            <td>{{ logs.system.swap_usage }}</td>
+        </tr>
+
+        </tbody>
+        <thead>
+        <tr>
+            <th>Program</th>
+            <th>Status</th>
+            <th colspan="2">Output</th>
+            <th>Last Started</th>
+            <th>Exit value</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <td>{{ logs.elastic_logs_size.couch_name }}</td>
+            <td><h4><span {% if "ok" in logs.elastic_logs_size.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.elastic_logs_size.status }}</span></h4></td>
+            <td colspan="2">{{ logs.elastic_logs_size.last_output }}</td>
+            <td>{{ logs.elastic_logs_size.data_collected }}</td>
+            <td>{{ logs.elastic_logs_size.last_exit_value }}</td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Filesystem</th>
+            <th>Status</th>
+            <th colspan="2">Free Space</th>
+            <th colspan="2">Free Inodes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.file_system.file_system_name }}</td>
+            <td><h4><span {% if "Accessible" in logs.file_system.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.file_system.status }}</span></h4></td>
+            <td colspan="2">{{ logs.file_system.space_free_total }}</td>
+            <td colspan="2">{{ logs.file_system.inodes_free }}</td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Net</th>
+            <th>Status</th>
+            <th colspan="2">Upload</th>
+            <th colspan="2">Download</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.net.interface }}</td>
+            <td><h4><span {% if "UP" in logs.net.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.net.status }}</span></h4></td>
+            <td colspan="2">{{ logs.net.upload_bytes }}</td>
+            <td colspan="2">{{ logs.net.download_bytes }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

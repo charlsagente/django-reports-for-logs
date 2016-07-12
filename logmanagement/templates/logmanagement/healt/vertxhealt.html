@@ -1,0 +1,195 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "logmanagement/css/healts.css" %}">
+
+{% load couchbase_healt %}
+<div class="jumbotron">
+    <h2>Monit Service Manager Vertx</h2>
+
+    <p>Se muestra el monitoreo del servidor Vertx</p>
+</div>
+{% get_monit_logs "vertx" "vertx*-status*.txt" as logs %}
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>System</th>
+            <th>Status</th>
+            <th>Load</th>
+            <th>CPU</th>
+            <th>Memory</th>
+            <th>Swap</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.system.system_name }}</td>
+            <td>
+                <h4><span {% if "Running" in logs.system.status %}
+                    class="label label-success"
+                {% else %}
+                    class="label label-warning"
+                {% endif %}>
+                    {{ logs.system.status }}</span></h4></td>
+            <td>{{ logs.system.load_average }}</td>
+            <td>{{ logs.system.cpu }}</td>
+            <td>{{ logs.system.memory_usage }}</td>
+            <td>{{ logs.system.swap_usage }}</td>
+        </tr>
+
+        </tbody>
+        <thead>
+        <tr>
+            <th>Process</th>
+            <th>Status</th>
+            <th>Uptime</th>
+            <th>CPU Total</th>
+            <th colspan="2">Memory total</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                {{ logs.process.process_name }}
+            </td>
+            <td>
+                <h4><span {% if "Running" in logs.process.status %}
+                    class="label label-success"
+                {% else %}
+                    class="label label-warning"
+                {% endif %}>
+                    {{ logs.process.status }}</span></h4></td>
+            </th>
+            <td>
+                {{ logs.process.uptime }}
+            </td>
+            <td>
+                {{ logs.process.cpu_total }}
+            </td>
+            <td colspan="2">
+                {{ logs.process.memory_total }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ logs.process1.process_name }}
+            </td>
+            <td>
+                <h4><span {% if "Running" in logs.process1.status %}
+                    class="label label-success"
+                {% else %}
+                    class="label label-warning"
+                {% endif %}>
+                    {{ logs.process1.status }}</span></h4></td>
+            </th>
+            <td>
+                {{ logs.process1.uptime }}
+            </td>
+            <td>
+                {{ logs.process1.cpu_total }}
+            </td>
+            <td colspan="2">
+                {{ logs.process1.memory_total }}
+            </td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Program</th>
+            <th>Status</th>
+            <th colspan="2">Output</th>
+            <th>Last Started</th>
+            <th>Exit value</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <td>{{ logs.tomcat_logs_size.tomcat_name }}</td>
+            <td><h4><span {% if "ok" in logs.tomcat_logs_size.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.tomcat_logs_size.status }}</span></h4></td>
+            <td colspan="2">{{ logs.tomcat_logs_size.last_output }}</td>
+            <td>{{ logs.tomcat_logs_size.data_collected }}</td>
+            <td>{{ logs.tomcat_logs_size.last_exit_value }}</td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Filesystem</th>
+            <th>Status</th>
+            <th colspan="2">Free Space</th>
+            <th colspan="2">Free Inodes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.file_system.file_system_name }}</td>
+            <td><h4><span {% if "Accessible" in logs.file_system.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.file_system.status }}</span></h4></td>
+            <td colspan="2">{{ logs.file_system.space_free_total }}</td>
+            <td colspan="2">{{ logs.file_system.inodes_free }}</td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>File</th>
+            <th>Status</th>
+            <th>Size</th>
+            <th>Permission</th>
+            <th>UID</th>
+            <th>GID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <a href="monitoreo/showlog/tomcat/tomcat.log" target="_blank">{{ logs.file.file_name }}</a>
+            </td>
+            <td><h4><span {% if "Accessible" in logs.file.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.file.status }}</span></h4></td>
+            <td>
+                {{ logs.file.size }}
+            </td>
+            <td>
+                {{ logs.file.permission }}
+            </td>
+            <td>
+                {{ logs.file.uid }}
+            </td>
+            <td>
+                {{ logs.file.gid }}
+            </td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Net</th>
+            <th>Status</th>
+            <th colspan="2">Upload</th>
+            <th colspan="2">Download</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.net.interface }}</td>
+            <td><h4><span {% if "UP" in logs.net.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.net.status }}</span></h4></td>
+            <td colspan="2">{{ logs.net.upload_bytes }}</td>
+            <td colspan="2">{{ logs.net.download_bytes }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
