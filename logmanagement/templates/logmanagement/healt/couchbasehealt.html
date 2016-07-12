@@ -1,0 +1,91 @@
+{% load couchbase_healt %}
+<div class="jumbotron">
+    <h2>Monit Service Manager Couchbase Nodo 1</h2>
+
+    <p>Se muestran los logs de monit el servidor couchbase en el nodo 1</p>
+</div>
+{% get_monit_logs "couchbase1" as logs %}
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>System</th>
+            <th>Status</th>
+            <th>Load</th>
+            <th>CPU</th>
+            <th>Memory</th>
+            <th>Swap</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.system.system_name}}</td>
+            <td>{{ logs.system.status }}</td>
+            <td>{{ logs.system.load_average }}</td>
+            <td>{{ logs.system.cpu }}</td>
+            <td>{{ logs.system.memory_usage }}</td>
+            <td>{{ logs.system.swap_usage }}</td>
+        </tr>
+
+        </tbody>
+        <thead>
+        <tr>
+            <th>Program</th>
+            <th>Status</th>
+            <th colspan="2">Output</th>
+            <th>Last Started</th>
+            <th>Exit value</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.couch_logs.couch_name }}</td>
+            <td>{{ logs.couch_logs.status }}</td>
+            <td colspan="2">{{ logs.couch_logs.last_output }}</td>
+            <td>{{ logs.couch_logs.data_collected }}</td>
+            <td>{{ logs.couch_logs.last_exit_value }}</td>
+        </tr>
+        <tr>
+            <td>{{ logs.couch_data.couch_name }}</td>
+            <td>{{ logs.couch_data.status }}</td>
+            <td colspan="2">{{ logs.couch_data.last_output }}</td>
+            <td>{{ logs.couch_data.data_collected }}</td>
+            <td>{{ logs.couch_logs.last_exit_value }}</td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Filesystem</th>
+            <th>Status</th>
+            <th colspan="2">Free Space</th>
+            <th colspan="2">Free Inodes</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ logs.file_system.file_system_name }}</td>
+                <td>{{ logs.file_system.status }}</td>
+                <td colspan="2">{{ logs.file_system.space_free_total }}</td>
+                <td colspan="2">{{ logs.file_system.inodes_free }}</td>
+            </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Net</th>
+            <th>Status</th>
+            <th colspan="2">Upload</th>
+            <th colspan="2">Download</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ logs.net.interface }}</td>
+            <td>Accesible</td>
+            <td colspan="2">9.7%</td>
+            <td colspan="2">5.6%</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

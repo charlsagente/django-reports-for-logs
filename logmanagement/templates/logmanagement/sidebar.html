@@ -17,7 +17,9 @@
     {% endif %}><a href="/monitoreo/elastic/">ElasticSearch Logs</a></li>
 </ul>
 <ul class="nav nav-sidebar">
-    <li><a href="">Couchbase Healt</a></li>
+    <li {% if request.path == "/monitoreo/couch_healt/" %}
+        class="active"
+    {% endif %}><a href="/monitoreo/couch_healt/">Couchbase Healt</a></li>
     <li><a href="">Elastic Search Healt</a></li>
     <li><a href="">Tomcat Healt</a></li>
     <li><a href="">Vertx Healt</a></li>

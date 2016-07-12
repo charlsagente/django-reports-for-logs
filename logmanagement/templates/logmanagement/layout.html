@@ -31,6 +31,9 @@
                 {% include "logmanagement/rest.html" %}
             {% elif  request.path == "/monitoreo/elastic/" %}
                 {% include "logmanagement/elasticsearch.html" %}
+            {% elif  request.path == "/monitoreo/couch_healt/" %}
+                {% include "logmanagement/healt/couchbasehealt.html" %}
+
             {% endif %}
         </div>
 

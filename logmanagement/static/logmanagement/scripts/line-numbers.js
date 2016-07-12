@@ -1,5 +1,5 @@
 /**
- *Forked: https://github.com/charlsagente/reveal-line-numbers/tree/master
+ *Forked from: https://github.com/charlsagente/reveal-line-numbers/tree/master
  *
  */
 
@@ -34,7 +34,7 @@ function addLineNumbers() {
         if (highlights.indexOf(n) > -1) {
           classes += ' highlight-line';
         }
-          else if(highlights.length <=0 && content[n].match(/WARNING|WARN|ERROR|FATAL|SEVERE/g)){
+          else if(highlights.length <=0 && content[n].match(/WARNING|WARN|ERROR|FATAL|SEVERE/g)){ //add your own log_levels
             classes += ' highlight-line';
         }
 
