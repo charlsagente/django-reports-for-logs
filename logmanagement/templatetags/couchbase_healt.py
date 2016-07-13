@@ -48,7 +48,10 @@ def parse_file(file):
                 continue
             r = re.match(r'File\s+\'(?P<name>.+)\'', x)
             if r:
-                key='file'
+                if 'file' in dict:
+                    key = 'file1'
+                else:
+                    key='file'
                 dict[key]={}
                 dict[key]['file_name']=r.group('name')
                 continue
@@ -75,6 +78,12 @@ def parse_file(file):
                 key='tomcat_logs_size'
                 dict[key] = {}
                 dict[key]['tomcat_name']='tomcat_logs_size'
+                continue
+            r = re.match(r'Program \'vertx_logs_size\'', x)
+            if r:
+                key='vertx_logs_size'
+                dict[key] = {}
+                dict[key]['vertx_name']='vertx_logs_size'
                 continue
             r = re.match(r'System \'(?P<system>.+)\'', x)
             if r:

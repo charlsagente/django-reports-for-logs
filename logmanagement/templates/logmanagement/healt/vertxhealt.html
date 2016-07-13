@@ -106,15 +106,15 @@
         <tbody>
 
         <tr>
-            <td>{{ logs.tomcat_logs_size.tomcat_name }}</td>
-            <td><h4><span {% if "ok" in logs.tomcat_logs_size.status %}
+            <td>{{ logs.vertx_logs_size.vertx_name }}</td>
+            <td><h4><span {% if "ok" in logs.vertx_logs_size.status %}
                 class="label label-success"
             {% else %}
                 class="label label-warning"
-            {% endif %}>{{ logs.tomcat_logs_size.status }}</span></h4></td>
-            <td colspan="2">{{ logs.tomcat_logs_size.last_output }}</td>
-            <td>{{ logs.tomcat_logs_size.data_collected }}</td>
-            <td>{{ logs.tomcat_logs_size.last_exit_value }}</td>
+            {% endif %}>{{ logs.vertx_logs_size.status }}</span></h4></td>
+            <td colspan="2">{{ logs.vertx_logs_size.last_output }}</td>
+            <td>{{ logs.vertx_logs_size.data_collected }}</td>
+            <td>{{ logs.vertx_logs_size.last_exit_value }}</td>
         </tr>
         </tbody>
         <thead>
@@ -150,7 +150,7 @@
         <tbody>
         <tr>
             <td>
-                <a href="monitoreo/showlog/tomcat/tomcat.log" target="_blank">{{ logs.file.file_name }}</a>
+                {{ logs.file.file_name }}
             </td>
             <td><h4><span {% if "Accessible" in logs.file.status %}
                 class="label label-success"
@@ -168,6 +168,28 @@
             </td>
             <td>
                 {{ logs.file.gid }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ logs.file1.file_name }}
+            </td>
+            <td><h4><span {% if "Accessible" in logs.file1.status %}
+                class="label label-success"
+            {% else %}
+                class="label label-warning"
+            {% endif %}>{{ logs.file1.status }}</span></h4></td>
+            <td>
+                {{ logs.file1.size }}
+            </td>
+            <td>
+                {{ logs.file1.permission }}
+            </td>
+            <td>
+                {{ logs.file1.uid }}
+            </td>
+            <td>
+                {{ logs.file1.gid }}
             </td>
         </tr>
         </tbody>
