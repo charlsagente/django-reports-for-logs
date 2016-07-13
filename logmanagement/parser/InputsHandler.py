@@ -7,15 +7,8 @@ from django.conf import settings
 
 class InputsHandler:
 
-    def __init__(self, subfolder="seen"):
-        self.__path = os.path.join(os.path.dirname(__file__),subfolder)
-        self.__file = None
-        self.__fingerprints = set()
+    def __init__(self):
         self.set_path_for_filesystem()
-
-
-    def __del__(self):
-        self.close()
 
     def get_file_contents(self, folder,file):
         self.set_path_for_filesystem()
@@ -23,17 +16,12 @@ class InputsHandler:
             content = content_file.read()
         return content
 
-
-    def set_path_for_filesystem(self):
+    def set_path_for_filesystem(self, subfolder="logs"):
         if _platform == "linux" or _platform == "linux2":
-            self.path_for_filesystem = os.path.join(os.environ['HOME'],"s3/logs")
+            self.path_for_filesystem = os.path.join(os.environ['HOME'], "s3", subfolder)
 
         elif _platform == "win32":
-            self.path_for_filesystem = "C:\\reportsforlogs\\logs"
-
-    def close(self):
-        if self.__file:
-            self.__file.close()
+            self.path_for_filesystem = os.path.join("C:\\reportsforlogs", subfolder)
 
     def log(self,msg):
         if settings.DEBUG and msg:

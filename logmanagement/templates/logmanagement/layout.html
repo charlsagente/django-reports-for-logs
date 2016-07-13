@@ -23,12 +23,23 @@
             {% include "logmanagement/sidebar.html" %}
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            {% if request.path == "/logs/" %}
+            {% if request.path == "/monitoreo/" %}
                 {% include "logmanagement/home.html" %}
-            {% elif  request.path == "/logs/tomcat" %}
+            {% elif  request.path == "/monitoreo/tomcat/" %}
                 {% include "logmanagement/logsfortomcat.html" %}
-            {% elif  request.path == "/logs/rest" %}
+            {% elif  request.path == "/monitoreo/rest/" %}
                 {% include "logmanagement/rest.html" %}
+            {% elif  request.path == "/monitoreo/elastic/" %}
+                {% include "logmanagement/elasticsearch.html" %}
+            {% elif  request.path == "/monitoreo/couch_healt/" %}
+                {% include "logmanagement/healt/couchbasehealt.html" %}
+            {% elif  request.path == "/monitoreo/elastic_healt/" %}
+                {% include "logmanagement/healt/elastichealt.html" %}
+            {% elif  request.path == "/monitoreo/tomcat_healt/" %}
+                {% include "logmanagement/healt/tomcathealt.html" %}
+            {% elif  request.path == "/monitoreo/vertx_healt/" %}
+                {% include "logmanagement/healt/vertxhealt.html" %}
+
             {% endif %}
         </div>
 
@@ -36,12 +47,14 @@
 </div>
 
 {% include "logmanagement/scripts-common-dependencies.html" %}
-{% if request.path == "/logs/" %}
+{% if request.path == "/monitoreo/" %}
     <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-mw-logs.js" %} "></script>
-{% elif  request.path == "/logs/tomcat" %}
+{% elif  request.path == "/monitoreo/tomcat/" %}
     <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-tomcat.js" %} "></script>
-{% elif  request.path == "/logs/rest" %}
-    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-rest.js" %} "></script>
+{% elif  request.path == "/monitoreo/rest/" %}
+    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-mw-logs.js" %} "></script>
+{% elif  request.path == "/monitoreo/elastic/" %}
+    <script type="text/javascript" src="{% static "logmanagement/scripts/reports-for-tomcat.js" %} "></script>
 {% endif %}
 
 

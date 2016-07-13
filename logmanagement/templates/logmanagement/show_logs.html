@@ -1,0 +1,18 @@
+{% load staticfiles %}
+{% load get_logs %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"  href="{% static "logmanagement/css/line-numbers.css" %}">
+    <script type="text/javascript" src="{% static "logmanagement/scripts/line-numbers.js" %} "></script>
+
+</head>
+<body>
+<pre><code class="line-numbers"  data-highlight-lines="{% get_key 'lines' %}">
+    {% get_logs %}
+</code></pre>
+
+</body>
+</html>

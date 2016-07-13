@@ -39,13 +39,13 @@ $(function () {
             if (global_logs_values[device_type].hasOwnProperty(val))
                 ctr_files = global_logs_values[device_type][val];
             else
-                ctr_files = {'line_coounters': 0, 'lines': [0]};
+                ctr_files = {'line_counters': 0, 'lines': [0]};
 
             modal.find('.modal-body table tbody').append(
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: val,
+                            href: "showlog/"+val+"/"+ctr_files.lines.sort().join(","),
                             target: "_blank",
                             text: val
                         })
@@ -84,9 +84,11 @@ $(function () {
                 $('strong span').removeClass('animated zoomOutRight');
             });
 
+        var path_name=window.location.pathname;
+
         $.ajax({
             type: "GET",
-            url: $("#start_date").val() + "/" + $("#end_date").val(),
+            url: path_name+$("#start_date").val() + "/" + $("#end_date").val(),
 
             success: function (data) {
 
@@ -143,16 +145,16 @@ $(function () {
                 $("#table-android-pt-errors").hide();
                 $("#table-ios-pt-errors").hide();
 
-                if(data['pt-internal-errors']['W'].length>0){
+                if(data['pt-internal-errors']['W'] && data['pt-internal-errors']['W'].length>0){
                     $("#table-web-pt-errors").show();
                     appendChilds( $("#table-web-pt-errors tbody"),data['pt-internal-errors']['W']);
                 }
-                if(data['pt-internal-errors']['A'].length>0){
+                if(data['pt-internal-errors']['A'] && data['pt-internal-errors']['A'].length>0){
                     $("#table-android-pt-errors").show();
                     appendChilds( $("#table-android-pt-errors tbody"),data['pt-internal-errors']['A']);
                 }
 
-                if(data['pt-internal-errors']['I'].length>0){
+                if(data['pt-internal-errors']['I'] && data['pt-internal-errors']['I'].length>0){
                     $("#table-ios-pt-errors").show();
                     appendChilds( $("#table-ios-pt-errors tbody"),data['pt-internal-errors']['I']);
                 }

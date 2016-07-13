@@ -1,0 +1,35 @@
+
+code.line-numbers {
+  counter-reset: line_numbers;
+}
+
+code span.line-number {
+  counter-increment: line_numbers;
+}
+
+code span.line-number:before {
+  content: counter(line_numbers);
+  color: gray;
+}
+
+code span.highlight-line:before {
+  color: yellow;
+}
+
+tr.highlight-line{
+  background-color: #ffa210;
+}
+
+tr:hover{
+  background-color: rgba(43, 51, 56, 0.23);
+}
+
+table{
+  border:none;
+  border-collapse: collapse;
+
+}
+
+body{
+  font-family: 'Slabo 27px', serif;
+}

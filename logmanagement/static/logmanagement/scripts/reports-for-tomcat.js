@@ -38,19 +38,22 @@ $(function () {
             }
         }
 
-        for (var val in files) {
+        Object.keys(files).sort().reduce(function (result, key) {
+
             modal.find('.modal-body table tbody').append(
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: val,
-                            text: val,
+                            href: window.location.protocol+"//"+window.location.host+"/"+
+                            window.location.pathname.split("/")[1]+"/showlog/"+key.replace("\\","/")+"/"+
+                            files[key].sort().join(","),
+                            text: key,
                             target: "_blank"
                         })
                     )
                 ).append(
                     $('<td>', {
-                            text: files[val].length,
+                            text: files[key].length,
                             align: 'center'
                         }
                     )
@@ -59,12 +62,15 @@ $(function () {
                         $('<textarea>', {
                             class: "form-control",
                             rows: "3",
-                            text: files[val].join(", ")
+                            text: files[key].join(", ")
                         })
                     )
                 )
             );
-        }
+            return result;
+        }, {});
+
+
     });
 
     $('#tomcatModal').on('show.bs.modal', function (event) {
@@ -79,7 +85,9 @@ $(function () {
                 $('<tr>').append(
                     $('<td>').append(
                         $('<a>', {
-                            href: file,
+                            href: window.location.protocol+"//"+window.location.host+"/"+window.location.pathname.split("/")[1]+
+                            "/showlog/"+file.replace("\\","/")+"/"+
+                            global_tomcat_values[file][log_level].sort().join(","),
                             text: file,
                             target: "_blank"
                         })
@@ -106,10 +114,11 @@ $(function () {
     $('#btnsubmit').on('click', function (e) {
         $(this).html('<i class="fa fa-circle-o-notch fa-spin"></i> Espere..');
         $(this).attr('disabled', true);
+        var path_name=window.location.pathname;
 
         $.ajax({
             type: "GET",
-            url: "tomcat/" + $("#start_date").val() + "/" + $("#end_date").val(),
+            url:  path_name+$("#start_date").val() + "/" + $("#end_date").val(),
 
             success: function (data) {
 

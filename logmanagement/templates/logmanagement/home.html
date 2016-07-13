@@ -4,7 +4,13 @@
 <div class="well cal_pickers">
     <div class="row">
         <div class="col-md-12">
-            <h4 align="center">Monitoreo de integrador </h4>
+            <h4 align="center">Monitoreo de
+                {% if "rest" in request.path %}
+                rest
+                {% else %}
+                integrador
+                {% endif %}
+            </h4>
             <h5 align="center"> {% current_time "%Y-%m-%d " %}</h5>
 
         </div>

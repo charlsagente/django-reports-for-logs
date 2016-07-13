@@ -9,4 +9,7 @@ class DateFile(models.Model):
     archivo=models.CharField(max_length=50,null=True)
 
 
-
+class DateFileRest(models.Model):
+    fecha_archivo= models.CharField(max_length=70,primary_key=True)
+    fecha=models.DateField(null=True)
+    archivo=models.CharField(max_length=50,null=True)
