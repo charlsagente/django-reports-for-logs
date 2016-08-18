@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-TEMPLATE_DEBUG=True
+#TEMPLATE_DEBUG=True
 ALLOWED_HOSTS = ['*']
 
 
@@ -121,8 +122,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+
+
+#STATIC_ROOT = "C:\xampp_php5.5\htdocs\static"
+#STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'logmanagement', "static")
+
 
 
 ]

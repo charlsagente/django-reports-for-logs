@@ -10,7 +10,7 @@ class InputsHandler:
     def __init__(self):
         self.set_path_for_filesystem()
 
-    def get_file_contents(self, folder,file):
+    def get_file_contents(self, folder, file):
         self.set_path_for_filesystem()
         with open(os.path.join(self.path_for_filesystem,folder,file), 'r') as content_file:
             content = content_file.read()
@@ -18,7 +18,7 @@ class InputsHandler:
 
     def set_path_for_filesystem(self, subfolder="logs"):
         if _platform == "linux" or _platform == "linux2":
-            self.path_for_filesystem = os.path.join(os.environ['HOME'], "s3", subfolder)
+            self.path_for_filesystem = os.path.join("/dashboard-beople/data", subfolder)
 
         elif _platform == "win32":
             self.path_for_filesystem = os.path.join("C:\\reportsforlogs", subfolder)
